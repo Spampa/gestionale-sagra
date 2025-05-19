@@ -1,0 +1,27 @@
+{
+  "name": "api-gestionale_sagra",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node-dev -r tsconfig-paths/register src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/node": "^22.15.18",
+    "prisma": "^6.8.2",
+    "tsconfig-paths": "^4.2.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.8.2",
+    "@types/cors": "^2.8.18",
+    "@types/express": "^5.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0"
+  }
+}
