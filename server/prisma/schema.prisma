@@ -38,7 +38,6 @@ model Order {
   dateTime DateTime? @default(now())
   table Int
   customer String
-  price Decimal
 
   foodOrdered FoodOrdered[]
 }

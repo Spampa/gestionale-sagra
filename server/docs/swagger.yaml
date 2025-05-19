@@ -1,0 +1,366 @@
+openapi: 3.0.0
+info:
+  title: Gestionale Sagra API
+  version: 1.0.0
+  description: API REST per la gestione di categorie, cibi e ordini in una sagra
+servers:
+  - url: http://localhost:3000
+tags:
+  - name: Categories
+    description: Gestione categorie
+  - name: Foods
+    description: Gestione cibi
+  - name: Orders
+    description: Gestione ordini
+paths:
+  /categories:
+    get:
+      tags: [Categories]
+      summary: Ottiene tutte le categorie
+      responses:
+        200:
+          description: Lista delle categorie
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Category"
+    post:
+      tags: [Categories]
+      summary: Crea una nuova categoria
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CategoryInput"
+      responses:
+        201:
+          description: Categoria creata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Category"
+        400:
+          description: Categoria esistente o dati non validi
+  /categories/{id}:
+    get:
+      tags: [Categories]
+      summary: Ottiene una categoria per ID
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        200:
+          description: Categoria trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Category"
+        404:
+          description: Categoria non trovata
+    put:
+      tags: [Categories]
+      summary: Aggiorna una categoria
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CategoryInput"
+      responses:
+        200:
+          description: Categoria modificata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Category"
+        400:
+          description: Nome già esistente o dati non validi
+        404:
+          description: Categoria non trovata
+    delete:
+      tags: [Categories]
+      summary: Elimina una categoria
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        204:
+          description: Cancellato con successo
+        404:
+          description: Categoria non trovata
+
+  /foods:
+    get:
+      tags: [Foods]
+      summary: Ottiene tutti i cibi
+      responses:
+        200:
+          description: Lista di cibi
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Food"
+    post:
+      tags: [Foods]
+      summary: Crea un nuovo cibo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FoodInput"
+      responses:
+        201:
+          description: Cibo creato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Food"
+        400:
+          description: Cibo già esistente o dati non validi
+  /foods/{id}:
+    get:
+      tags: [Foods]
+      summary: Ottiene un cibo per ID
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        200:
+          description: Cibo trovato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Food"
+        404:
+          description: Cibo non trovato
+    put:
+      tags: [Foods]
+      summary: Aggiorna un cibo
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FoodInput"
+      responses:
+        200:
+          description: Cibo aggiornato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Food"
+        400:
+          description: Cibo già esistente o dati non validi
+        404:
+          description: Cibo non trovato
+    delete:
+      tags: [Foods]
+      summary: Elimina un cibo
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        204:
+          description: Cancellato con successo
+        404:
+          description: Cibo non trovato
+
+  /foods/categories/{id}:
+    get:
+      tags: [Foods]
+      summary: Ottiene i cibi appartenenti a una categoria
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        200:
+          description: Lista di cibi nella categoria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Food"
+        404:
+          description: Categoria non trovata
+
+  /orders:
+    get:
+      tags: [Orders]
+      summary: Ottiene tutti gli ordini
+      responses:
+        200:
+          description: Lista di ordini
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FullOrder"
+    post:
+      tags: [Orders]
+      summary: Crea un nuovo ordine
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderInput"
+      responses:
+        201:
+          description: Ordine creato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FullOrder"
+        400:
+          description: Dati non validi
+  /orders/{id}:
+    get:
+      tags: [Orders]
+      summary: Ottiene un ordine per ID
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        200:
+          description: Dati dell'ordine
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FullOrder"
+        404:
+          description: Ordine non trovato
+    delete:
+      tags: [Orders]
+      summary: Elimina un ordine
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        204:
+          description: Cancellato con successo
+        404:
+          description: Ordine non trovato
+components:
+  parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+  schemas:
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "pizzeria"
+        foods:
+          type: array
+          items:
+            $ref: "#/components/schemas/Food"
+    CategoryInput:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          example: "pizzeria"
+    Food:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "Lasagna"
+        description:
+          type: string
+          nullable: true
+          example: "Pasta al forno con ragù"
+        price:
+          type: number
+          format: float
+          example: 7.5
+        categoryId:
+          type: integer
+          example: 1
+    FoodInput:
+      type: object
+      required:
+        - name
+        - price
+        - categoryId
+      properties:
+        name:
+          type: string
+          example: "Lasagna"
+        description:
+          type: string
+          nullable: true
+        price:
+          type: number
+          format: float
+        categoryId:
+          type: integer
+          example: 1
+    FoodOrderedInput:
+      type: object
+      required:
+        - foodId
+        - quantity
+      properties:
+        foodId:
+          type: integer
+        quantity:
+          type: integer
+          minimum: 1
+    OrderInput:
+      type: object
+      required:
+        - table
+        - customer
+        - foodOrdered
+      properties:
+        table:
+          type: integer
+          example: 1
+        customer:
+          type: string
+        foodOrdered:
+          type: array
+          items:
+            $ref: "#/components/schemas/FoodOrderedInput"
+    FoodOrdered:
+      type: object
+      properties:
+        foodId:
+          type: integer
+        quantity:
+          type: integer
+    FullOrder:
+      type: object
+      properties:
+        id:
+          type: integer
+        dateTime:
+          type: string
+          format: date-time
+        table:
+          type: integer
+        customer:
+          type: string
+        foodOrdered:
+          type: array
+          items:
+            $ref: "#/components/schemas/FoodOrdered"

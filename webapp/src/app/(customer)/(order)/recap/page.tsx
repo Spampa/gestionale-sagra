@@ -20,7 +20,7 @@ export default function Recap() {
     const router = useRouter();
 
     function createOrder() {
-        fetch("http://localhost:3030/orders", {
+        fetch("/api/orders", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'

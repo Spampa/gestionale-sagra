@@ -12,7 +12,9 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
     "@types/node": "^22.15.18",
+    "@types/swagger-ui-express": "^4.1.8",
     "prisma": "^6.8.2",
     "tsconfig-paths": "^4.2.0"
   },
@@ -22,6 +24,8 @@
     "@types/express": "^5.0.2",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "js-yaml": "^4.1.0",
+    "swagger-ui-express": "^5.0.1"
   }
 }

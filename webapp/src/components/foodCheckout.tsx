@@ -18,7 +18,7 @@ export default function FoodCheckout({ id, quantity }: Props) {
 
     useEffect(() => {
         async function getFood() {
-            const data = await fetch(`http://localhost:3030/foods/${id}`).then(res => res.json())
+            const data = await fetch(`/api/foods/${id}`).then(res => res.json())
             setFood(data);
         }
         getFood();
