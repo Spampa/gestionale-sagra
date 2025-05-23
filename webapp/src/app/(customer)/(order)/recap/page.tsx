@@ -40,7 +40,6 @@ export default function Recap() {
             },
             body: JSON.stringify(order)
         }).then(async res => {
-            console.log(res);
             const data = await res.json();
             router.push(`/checkout/${data?.id || ""}`);
         }).catch(err => {

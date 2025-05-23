@@ -23,7 +23,7 @@ export default function MenuButton({ title, src, href }: MenuButtonProps) {
                     />
                 </div>
                 <div className="col-span-3 text-3xl bg-primary rounded-r-md flex place-content-center items-center text-foreground font-semibold p-3">
-                    {title}
+                    {title.toUpperCase()}
                 </div>
             </div>
         </Link>

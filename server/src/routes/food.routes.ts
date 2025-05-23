@@ -24,7 +24,6 @@ router.put(
     checkRole(["admin"]),
     validateIdParam,
     checkFoodObj,
-    checkFoodNameAlreadyExist,
     updateFood
 );
 

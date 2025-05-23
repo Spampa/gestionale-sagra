@@ -34,7 +34,13 @@ router.post("/", async (req: Request, res: Response) => {
     }
 
     if (await checkPwd(password, user.password)) {
-        res.status(200).json(generateJwt(user));
+        res.status(200).json({
+            user: {
+                username: user.username,
+                role: user.role.name
+            },
+            token: generateJwt(user)
+        });
     }
     else {
         res.status(401).json({

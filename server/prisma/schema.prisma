@@ -36,7 +36,7 @@ model Food {
 model Order {
   id String @id
   dateTime DateTime? @default(now())
-  table Int
+  table String
   customer String
 
   foodsOrdered FoodsOrdered[]

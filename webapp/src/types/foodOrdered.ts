@@ -1,6 +1,6 @@
 import { Food } from "./food"
 
-export type FoodOrderd = {
+export type FoodsOrderd = {
     quantity: number
     food: Food
 }

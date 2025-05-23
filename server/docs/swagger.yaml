@@ -452,6 +452,30 @@ paths:
           description: Cancellato con successo
         404:
           description: Ordine non trovato
+  /orders/search/{value}:
+    get:
+      security:
+        - BearerAuth: []
+      tags: [Orders]
+      summary: Cerca ordini per ID o cliente
+      parameters:
+        - name: value
+          in: path
+          required: true
+          description: ID dell'ordine o nome del cliente
+          schema:
+            type: string
+      responses:
+        200:
+          description: Lista di ordini trovati
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FullOrder"
+        404:
+          description: Ordine non trovato
 components:
   securitySchemes:
     BearerAuth:
@@ -591,7 +615,7 @@ components:
         - foodsOrdered
       properties:
         table:
-          type: integer
+          type: string
           example: 1
         customer:
           type: string
@@ -616,7 +640,7 @@ components:
           type: string
           format: date-time
         table:
-          type: integer
+          type: string
         customer:
           type: string
         foodsOrdered:

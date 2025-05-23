@@ -2,16 +2,16 @@ import { Category } from "@/types/category"
 import { Food } from "@/types/food"
 import { TableCell, TableRow } from "./ui/table"
 import FoodRowRecap from "./foodRowRecap"
-import { FoodOrderd } from "@/types/foodOrdered"
+import { FoodsOrderd } from "@/types/foodOrdered"
 import { useEffect, useState } from "react"
 
 interface Props {
     category: Category,
-    foodsOrderd: Array<FoodOrderd>
+    foodsOrderd: Array<FoodsOrderd>
 }
 
 export default function CategorySectionRecap({ category, foodsOrderd }: Props) {
-    const [foods, setFoods] = useState<Array<FoodOrderd>>([]);
+    const [foods, setFoods] = useState<Array<FoodsOrderd>>([]);
 
     useEffect(() => {
         foodsOrderd.map(foodOrder => {
