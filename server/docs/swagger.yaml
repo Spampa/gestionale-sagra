@@ -1,4 +1,207 @@
+openapi: 3.0.0
+info:
+  title: Gestionale Sagra API
+  version: 1.0.0
+  description: API REST per la gestione di categorie, cibi e ordini in una sagra
+servers:
+  - url: http://localhost:3030
+tags:
+  - name: Auth
+    description: Autenticazione
+  - name: Roles
+    description: Gestione ruoli
+  - name: Users
+    description: Gestione utenti
+  - name: Categories
+    description: Gestione categorie
+  - name: Foods
+    description: Gestione cibi
+  - name: Orders
+    description: Gestione ordini
 paths:
+  /auth/login:
+    post:
+      tags: [Auth]
+      summary: Autenticazione utente
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: "admin"
+                password:
+                  type: string
+                  example: "password"
+      responses:
+        200:
+          description: Login effettuato con successo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: "token123"
+        401:
+          description: Credenziali non valide
+  /roles:
+    get:
+      security:
+        - BearerAuth: []
+      tags: [Roles]
+      summary: Ottiene tutti i ruoli
+      responses:
+        200:
+          description: Lista dei ruoli
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Role"
+    post:
+      security:
+        - BearerAuth: []
+      tags: [Roles]
+      summary: Crea un nuovo ruolo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RoleInput"
+      responses:
+        201:
+          description: Ruolo creato
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "admin"
+        400:
+          description: Ruolo già esistente o dati non validi
+  /roles/{id}:
+    get:
+      security:
+        - BearerAuth: []
+      tags: [Roles]
+      summary: Ottiene un ruolo per ID
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        200:
+          description: Ruolo trovato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Role"
+        404:
+          description: Ruolo non trovato
+    put:
+      security:
+        - BearerAuth: []
+      tags: [Roles]
+      summary: Aggiorna un ruolo
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RoleInput"
+      responses:
+        200:
+          description: Ruolo modificato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Role"
+        400:
+          description: Ruolo già esistente o dati non validi
+        404:
+          description: Ruolo non trovato
+    delete:
+      security:
+        - BearerAuth: []
+      tags: [Roles]
+      summary: Elimina un ruolo
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        204:
+          description: Cancellato con successo
+        404:
+          description: Ruolo non trovato
+  /users:
+    get:
+      security:
+        - BearerAuth: []
+      tags: [Users]
+      summary: Ottiene tutti gli utenti
+      responses:
+        200:
+          description: Lista degli utenti
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+    post:
+      security:
+        - BearerAuth: []
+      tags: [Users]
+      summary: Crea un nuovo utente
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserInput"
+      responses:
+        201:
+          description: Utente creato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        400:
+          description: Utente già esistente o dati non validi
+  /users/{id}:
+    get:
+      security:
+        - BearerAuth: []
+      tags: [Users]
+      summary: Ottiene un utente per ID
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        200:
+          description: Utente trovato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        404:
+          description: Utente non trovato
+    delete:
+      security:
+        - BearerAuth: []
+      tags: [Users]
+      summary: Elimina un utente
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        204:
+          description: Cancellato con successo
+        404:
+          description: Utente non trovato
   /categories:
     get:
       tags: [Categories]
@@ -11,8 +214,10 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/CategoryBasic'
+                  $ref: "#/components/schemas/CategoryBasic"
     post:
+      security:
+        - BearerAuth: []
       tags: [Categories]
       summary: Crea una nuova categoria
       requestBody:
@@ -20,14 +225,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CategoryInput'
+              $ref: "#/components/schemas/CategoryInput"
       responses:
         201:
           description: Categoria creata
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CategoryBasic'
+                $ref: "#/components/schemas/CategoryBasic"
         400:
           description: Categoria esistente o dati non validi
 
@@ -36,50 +241,223 @@ paths:
       tags: [Categories]
       summary: Ottiene una categoria per ID
       parameters:
-        - $ref: '#/components/parameters/id'
+        - $ref: "#/components/parameters/id"
       responses:
         200:
           description: Categoria trovata
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CategoryBasic'
+                $ref: "#/components/schemas/CategoryBasic"
         404:
           description: Categoria non trovata
     put:
+      security:
+        - BearerAuth: []
       tags: [Categories]
       summary: Aggiorna una categoria
       parameters:
-        - $ref: '#/components/parameters/id'
+        - $ref: "#/components/parameters/id"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CategoryInput'
+              $ref: "#/components/schemas/CategoryInput"
       responses:
         200:
           description: Categoria modificata
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CategoryBasic'
+                $ref: "#/components/schemas/CategoryBasic"
         400:
           description: Nome già esistente o dati non validi
         404:
           description: Categoria non trovata
     delete:
+      security:
+        - BearerAuth: []
       tags: [Categories]
       summary: Elimina una categoria
       parameters:
-        - $ref: '#/components/parameters/id'
+        - $ref: "#/components/parameters/id"
       responses:
         204:
           description: Cancellato con successo
         404:
           description: Categoria non trovata
+  /foods:
+    get:
+      tags: [Foods]
+      summary: Ottiene tutti i cibi
+      responses:
+        200:
+          description: Lista di cibi
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Food"
+    post:
+      security:
+        - BearerAuth: []
+      tags: [Foods]
+      summary: Crea un nuovo cibo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FoodInput"
+      responses:
+        201:
+          description: Cibo creato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Food"
+        400:
+          description: Cibo già esistente o dati non validi
+  /foods/{id}:
+    get:
+      tags: [Foods]
+      summary: Ottiene un cibo per ID
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        200:
+          description: Cibo trovato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Food"
+        404:
+          description: Cibo non trovato
+    put:
+      security:
+        - BearerAuth: []
+      tags: [Foods]
+      summary: Aggiorna un cibo
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FoodInput"
+      responses:
+        200:
+          description: Cibo aggiornato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Food"
+        400:
+          description: Cibo già esistente o dati non validi
+        404:
+          description: Cibo non trovato
+    delete:
+      security:
+        - BearerAuth: []
+      tags: [Foods]
+      summary: Elimina un cibo
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        204:
+          description: Cancellato con successo
+        404:
+          description: Cibo non trovato
 
+  /foods/categories/{id}:
+    get:
+      tags: [Foods]
+      summary: Ottiene i cibi appartenenti a una categoria
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        200:
+          description: Lista di cibi nella categoria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Food"
+        404:
+          description: Categoria non trovata
+
+  /orders:
+    get:
+      security:
+        - BearerAuth: []
+      tags: [Orders]
+      summary: Ottiene tutti gli ordini
+      responses:
+        200:
+          description: Lista di ordini
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FullOrder"
+    post:
+      tags: [Orders]
+      summary: Crea un nuovo ordine
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderInput"
+      responses:
+        201:
+          description: Ordine creato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FullOrder"
+        400:
+          description: Dati non validi
+  /orders/{orderId}:
+    get:
+      security:
+        - BearerAuth: []
+      tags: [Orders]
+      summary: Ottiene un ordine per ID
+      parameters:
+        - $ref: "#/components/parameters/orderId"
+      responses:
+        200:
+          description: Dati dell'ordine
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FullOrder"
+        404:
+          description: Ordine non trovato
+    delete:
+      security:
+        - BearerAuth: []
+      tags: [Orders]
+      summary: Elimina un ordine
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        204:
+          description: Cancellato con successo
+        404:
+          description: Ordine non trovato
 components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   parameters:
     id:
       name: id
@@ -87,7 +465,65 @@ components:
       required: true
       schema:
         type: integer
+    orderId:
+      name: orderId
+      in: path
+      required: true
+      schema:
+        type: string
   schemas:
+    Role:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "admin"
+    UserInput:
+      type: object
+      required:
+        - username
+        - password
+        - roleId
+      properties:
+        username:
+          type: string
+          example: "admin"
+        password:
+          type: string
+          example: "password"
+        roleId:
+          type: integer
+          example: 1
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        username:
+          type: string
+          example: "admin"
+        role:
+          $ref: "#/components/schemas/Role"
+    RoleInput:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          example: "admin"
+    CategoryInput:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          example: "pizzeria"
     CategoryBasic:
       type: object
       properties:
@@ -97,11 +533,113 @@ components:
         name:
           type: string
           example: "pizzeria"
-    CategoryInput:
+    Food:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "Lasagna"
+        description:
+          type: string
+          nullable: true
+          example: "Pasta al forno con ragù"
+        price:
+          type: number
+          format: float
+          example: 7.5
+        categoryId:
+          type: integer
+          example: 1
+    FoodInput:
       type: object
       required:
         - name
+        - price
+        - categoryId
       properties:
         name:
           type: string
-          example: "pizzeria"
+          example: "Lasagna"
+        description:
+          type: string
+          nullable: true
+        price:
+          type: number
+          format: float
+        categoryId:
+          type: integer
+          example: 1
+    foodsOrderedInput:
+      type: object
+      required:
+        - foodId
+        - quantity
+      properties:
+        foodId:
+          type: integer
+        quantity:
+          type: integer
+          minimum: 1
+    OrderInput:
+      type: object
+      required:
+        - table
+        - customer
+        - foodsOrdered
+      properties:
+        table:
+          type: integer
+          example: 1
+        customer:
+          type: string
+        foodsOrdered:
+          type: array
+          items:
+            $ref: "#/components/schemas/foodsOrderedInput"
+    foodsOrdered:
+      type: object
+      properties:
+        foodId:
+          type: integer
+        quantity:
+          type: integer
+    FullOrder:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "A123"
+        dateTime:
+          type: string
+          format: date-time
+        table:
+          type: integer
+        customer:
+          type: string
+        foodsOrdered:
+          type: array
+          items:
+            type: object
+            properties:
+              quantity:
+                type: integer
+              food:
+                $ref: "#/components/schemas/FoodWithCategory"
+    FoodWithCategory:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+          nullable: true
+        price:
+          type: number
+          format: float
+        category:
+          $ref: "#/components/schemas/CategoryBasic"

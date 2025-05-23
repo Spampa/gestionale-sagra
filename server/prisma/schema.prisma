@@ -10,7 +10,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -30,26 +30,43 @@ model Food {
   category Category @relation(fields: [categoryId], references: [id])
   categoryId Int
 
-  FoodOrdered FoodOrdered[]
+  FoodsOrdered FoodsOrdered[]
 }
 
 model Order {
-  id Int @id @default(autoincrement())
+  id String @id
   dateTime DateTime? @default(now())
   table Int
   customer String
 
-  foodOrdered FoodOrdered[]
+  foodsOrdered FoodsOrdered[]
 }
 
-model FoodOrdered {
+model FoodsOrdered {
   quantity Int
 
   order Order @relation(fields: [orderId], references: [id])
-  orderId Int
+  orderId String
 
   food Food @relation(fields: [foodId], references: [id])
   foodId Int
 
   @@id([orderId, foodId])
+}
+
+//users sections
+model Role {
+  id Int @id @default(autoincrement())
+  name String @unique
+
+  users User[]
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  username String @unique
+  password String
+
+  role Role @relation( fields: [roleId], references: [id])
+  roleId Int
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import { FoodOrderd } from "@/types/foodOrdered";
 import { createContext, ReactNode, useContext, useState } from "react";
 
 type Order = {
@@ -7,12 +8,7 @@ type Order = {
     customer: string
     price: number
 
-    foodOrdered: Array<FoodOrdered>
-}
-
-type FoodOrdered = {
-    quantity: number
-    foodId: number
+    foodsOrdered: Array<FoodOrderd>
 }
 
 type OrderContextType = {
@@ -24,7 +20,7 @@ const initialOrder: Order = {
     table: 0,
     customer: '',
     price: 0,
-    foodOrdered: [],
+    foodsOrdered: [],
 };
 
 const OrderContext = createContext<OrderContextType>({

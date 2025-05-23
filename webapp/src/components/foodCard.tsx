@@ -13,27 +13,22 @@ import { Button } from "./ui/button"
 import { Plus, Minus } from "lucide-react"
 
 interface Prop {
-    food: {
-        id: number
-        name: string,
-        description?: string
-        price: number,
-        categoryId: number
-    }
+    food: Food
 }
 
 import { useOrder } from "@/contexts/OrderContext";
 import { useEffect, useState } from "react"
+import { Food } from "@/types/food"
 
 export default function FoodCard({ food }: Prop) {
     const { order, setOrder } = useOrder();
     const [count, setCount] = useState<number>(0);
 
     useEffect(() => {
-        const { foodOrdered } = order;
-        foodOrdered.forEach(f => {
-            if (f.foodId == food.id) {
-                setCount(f.quantity);
+        const { foodsOrdered } = order;
+        foodsOrdered.forEach(foodOrder => {
+            if (foodOrder.food.id == food.id) {
+                setCount(foodOrder.quantity);
             }
         })
     }, []);
@@ -41,56 +36,59 @@ export default function FoodCard({ food }: Prop) {
     function addFood() {
         setOrder(o => {
             // Cerca se il cibo è già stato ordinato
-            const existing = o.foodOrdered.find(f => f.foodId === food.id);
-            let newFoodOrdered;
+            const existing = o.foodsOrdered.find(foodOrder => foodOrder.food.id === food.id);
+            let newFoodsOrdered;
             if (existing) {
-                newFoodOrdered = o.foodOrdered.map(f =>
-                    f.foodId === food.id
-                        ? { ...f, quantity: f.quantity + 1 }
-                        : f
+                newFoodsOrdered = o.foodsOrdered.map(foodOrder =>
+                    foodOrder.food.id === food.id
+                        ? { ...foodOrder, quantity: foodOrder.quantity + 1 }
+                        : foodOrder
                 );
             } else {
-                newFoodOrdered = [
-                    ...o.foodOrdered,
-                    { foodId: food.id, quantity: 1, name: food.name, price: food.price }
+                newFoodsOrdered = [
+                    ...o.foodsOrdered,
+                    { food: food, quantity: 1 }
                 ];
             }
             return {
                 ...o,
                 price: Number(o.price) + Number(food.price),
-                foodOrdered: newFoodOrdered
+                foodsOrdered: newFoodsOrdered
             };
         });
+
 
         setCount(count + 1);
     }
 
     function removeFood() {
-        if(count == 0) return;
+        if (count === 0) return;
 
-            setOrder(o => {
-        const existing = o.foodOrdered.find(f => f.foodId === food.id);
-        if (!existing) return o;
+        setOrder(o => {
+            const existing = o.foodsOrdered.find(foodOrder => foodOrder.food.id === food.id);
+            if (!existing) return o;
 
-        let newFoodOrdered;
-        if (existing.quantity === 1) {
-            newFoodOrdered = o.foodOrdered.filter(f => f.foodId !== food.id);
-        } else {
-            newFoodOrdered = o.foodOrdered.map(f =>
-                f.foodId === food.id
-                    ? { ...f, quantity: f.quantity - 1 }
-                    : f
-            );
-        }
+            let newFoodsOrdered;
+            if (existing.quantity === 1) {
+                // Rimuovi il cibo dall'array se la quantità va a zero
+                newFoodsOrdered = o.foodsOrdered.filter(foodOrder => foodOrder.food.id !== food.id);
+            } else {
+                // Decrementa la quantità
+                newFoodsOrdered = o.foodsOrdered.map(foodOrder =>
+                    foodOrder.food.id === food.id
+                        ? { ...foodOrder, quantity: foodOrder.quantity - 1 }
+                        : foodOrder
+                );
+            }
 
-        return {
-            ...o,
-            price: Number(o.price) - Number(food.price),
-            foodOrdered: newFoodOrdered
-        };
-    });
+            return {
+                ...o,
+                price: Number(o.price) - Number(food.price),
+                foodsOrdered: newFoodsOrdered
+            };
+        });
 
-    setCount(count - 1);
+        setCount(count - 1);
     }
 
     return (

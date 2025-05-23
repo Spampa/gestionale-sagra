@@ -1,20 +1,44 @@
 import { Request, Response } from "express";
-import { FoodOrdered, Order } from "@generated/prisma";
+import { FoodsOrdered, Order } from "@generated/prisma";
+import generateOrderId from "@/lib/idGenerator";
 
 import prisma from "@/utils/prisma";
 
 export const getOrders = async (req: Request, res: Response): Promise<void> => {
-    const orders = await prisma.order.findMany();
+    const orders = await prisma.order.findMany({
+        include: {
+            foodsOrdered: true
+        }
+    });
     res.status(200).json(orders);
 }
 
 export const getOrderById = async (req: Request, res: Response): Promise<void> => {
-    const id = parseInt(req.params.id);
+    const id = req.params.id;
 
     const order = await prisma.order.findUnique({
         where: {
             id
-        }
+        },
+        include: {
+            foodsOrdered: {
+                omit: {
+                    orderId: true,
+                    foodId: true
+                },
+                include: {
+                    food: {
+                        omit: {
+                            categoryId: true
+                        },
+                        include: {
+                            category: true
+                        }
+                    }
+                }
+            }
+        },
+        
     });
 
     if (!order) {
@@ -27,18 +51,19 @@ export const getOrderById = async (req: Request, res: Response): Promise<void> =
 
 export const createOrder = async (req: Request, res: Response): Promise<void> => {
     const order: Order = req.body;
-    const foodOrdereds: Array<FoodOrdered> = req.body.foodOrdered;
+    const foodsOrdereds: Array<FoodsOrdered> = req.body.foodsOrdered;
 
     try {
         const newOrder = await prisma.order.create({
             data: {
+                id: await generateOrderId(),
                 table: order.table,
                 customer: order.customer
             }
         });
 
-        await prisma.foodOrdered.createMany({
-            data: foodOrdereds.map(foodOrdered => ({ quantity: foodOrdered.quantity, foodId: foodOrdered.foodId, orderId: newOrder.id }))
+        await prisma.foodsOrdered.createMany({
+            data: foodsOrdereds.map(foodsOrdered => ({ quantity: foodsOrdered.quantity, foodId: foodsOrdered.foodId, orderId: newOrder.id }))
         })
 
         const fullOrder = await prisma.order.findFirst({
@@ -46,7 +71,7 @@ export const createOrder = async (req: Request, res: Response): Promise<void> =>
                 id: newOrder.id
             },
             include: {
-                foodOrdered: {
+                foodsOrdered: {
                     include: {
                         food: true
                     }
@@ -63,7 +88,7 @@ export const createOrder = async (req: Request, res: Response): Promise<void> =>
 }
 
 export const deleteOrder = async (req: Request, res: Response): Promise<void> => {
-    const id = parseInt(req.params.id);
+    const id = req.params.id;
 
     try {
         await prisma.order.delete({

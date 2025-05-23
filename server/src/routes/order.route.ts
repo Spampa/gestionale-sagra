@@ -1,12 +1,13 @@
 import { Router } from "express";
 import { getOrders, getOrderById, createOrder, deleteOrder } from "@/controllers/order.controller";
 import { checkOrderObj } from "@/middlewares/checkObjects/checkOrder";
-import { validateIdParam } from "@/middlewares/validateIdParam";
+import { checkRole } from "@/middlewares/authMiddleware";
 
 const router = Router();
 
 router.get(
     "/",
+    checkRole(["admin", "operator"]),
     getOrders
 );
 
@@ -18,13 +19,13 @@ router.post(
 
 router.delete(
     "/:id",
-    validateIdParam,
+    checkRole(["admin", "operator"]),
     deleteOrder
 );
 
 router.get(
     "/:id",
-    validateIdParam,
+    checkRole(["admin", "operator"]),
     getOrderById
 );
 

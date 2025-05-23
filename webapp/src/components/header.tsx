@@ -27,10 +27,10 @@ export default function Header() {
                         <Home />
                     </Link>
                 </Button>
-                <Button variant={"secondary"} className="flex flex-row gap-3" asChild>
+                <Button variant="outline" className="flex flex-row gap-3" asChild>
                     <Link href={"/recap"}>
                         <ShoppingCart />
-                        <Badge className="min-w-14">{order.price} €</Badge>
+                        <p className="min-w-12 text-center">{order.price} €</p>
                     </Link>
                 </Button>
             </div>

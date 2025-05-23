@@ -1,7 +1,8 @@
 import { Router } from "express";
 import { getFoods, getFoodById, getFoodByCategory, createFood, updateFood, deleteFood } from "@/controllers/food.controller";
-import { checkFoodNameAlreadyExist, checkFoodObj} from "@/middlewares/checkObjects/checkFood";
+import { checkFoodNameAlreadyExist, checkFoodObj } from "@/middlewares/checkObjects/checkFood";
 import { validateIdParam } from "@/middlewares/validateIdParam";
+import { checkRole } from "@/middlewares/authMiddleware";
 
 const router = Router();
 
@@ -12,6 +13,7 @@ router.get(
 
 router.post(
     "/",
+    checkRole(["admin"]),
     checkFoodObj,
     checkFoodNameAlreadyExist,
     createFood
@@ -19,6 +21,7 @@ router.post(
 
 router.put(
     "/:id",
+    checkRole(["admin"]),
     validateIdParam,
     checkFoodObj,
     checkFoodNameAlreadyExist,
@@ -27,6 +30,7 @@ router.put(
 
 router.delete(
     "/:id",
+    checkRole(["admin"]),
     validateIdParam,
     deleteFood
 );

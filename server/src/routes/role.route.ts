@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { getCategories, getCategoryById, createCategory, updateCategory, deleteCategory } from "@/controllers/category.controller";
-import { checkCategoryNameAlreadyExist, checkCategoryObj} from "@/middlewares/checkObjects/checkCategory";
+import { getRoles, getRoleById, createRole, updateRole, deleteRole } from "@/controllers/role.controller";
+import { checkRoleNameAlreadyExist, checkRoleObj } from "@/middlewares/checkObjects/checkRole";
 import { validateIdParam } from "@/middlewares/validateIdParam";
 import { checkRole } from "@/middlewares/authMiddleware";
 
@@ -8,37 +8,39 @@ const router = Router();
 
 router.get(
     "/",
-    getCategories
+    checkRole(["admin", "operator"]),
+    getRoles
 );
 
 router.post(
     "/",
     checkRole(["admin"]),
-    checkCategoryObj,
-    checkCategoryNameAlreadyExist,
-    createCategory
+    checkRoleObj,
+    checkRoleNameAlreadyExist,
+    createRole
 );
 
 router.put(
     "/:id",
     checkRole(["admin"]),
     validateIdParam,
-    checkCategoryObj,
-    checkCategoryNameAlreadyExist,
-    updateCategory
+    checkRoleObj,
+    checkRoleNameAlreadyExist,
+    updateRole
 );
 
 router.delete(
     "/:id",
     checkRole(["admin"]),
     validateIdParam,
-    deleteCategory
+    deleteRole
 );
 
 router.get(
     "/:id",
+    checkRole(["admin", "operator"]),
     validateIdParam,
-    getCategoryById
+    getRoleById
 );
 
 export default router;

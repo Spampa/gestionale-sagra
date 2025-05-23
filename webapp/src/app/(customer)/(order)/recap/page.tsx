@@ -1,7 +1,6 @@
 "use client"
 
 import { useOrder } from "@/contexts/OrderContext"
-import FoodCheckout from "@/components/foodCheckout";
 import { useRouter } from "next/navigation";
 
 import {
@@ -13,11 +12,25 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
+
+import CategorySection from "@/components/categorySectionRecap";
 import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
+import { Category } from "@/types/category";
 
 export default function Recap() {
     const { order, setOrder } = useOrder();
+    const [categories, setCategories] = useState<Array<Category>>([]);
+
     const router = useRouter();
+
+    useEffect(() => {
+        async function fetchCategories() {
+            const data = await fetch("/api/categories").then(res => res.json());
+            setCategories(data);
+        }
+        fetchCategories();
+    }, []);
 
     function createOrder() {
         fetch("/api/orders", {
@@ -27,6 +40,7 @@ export default function Recap() {
             },
             body: JSON.stringify(order)
         }).then(async res => {
+            console.log(res);
             const data = await res.json();
             router.push(`/checkout/${data?.id || ""}`);
         }).catch(err => {
@@ -47,12 +61,13 @@ export default function Recap() {
                 </TableHeader>
                 <TableBody>
                     {
-                        order.foodOrdered.map(food => {
-                            return (
-                                // Render something for each food item, e.g.:
-                                <FoodCheckout key={food.foodId} id={food.foodId} quantity={food.quantity} />
-                            )
-                        })
+                        categories.map(category => (
+                            <CategorySection
+                                key={category.id}
+                                foodsOrderd={order.foodsOrdered}
+                                category={category}
+                            />
+                        ))
                     }
                 </TableBody>
                 <TableFooter>
@@ -60,7 +75,6 @@ export default function Recap() {
                         <TableCell colSpan={3}>Total</TableCell>
                         <TableCell className="text-right">{order.price}€</TableCell>
                     </TableRow>
-
                 </TableFooter>
             </Table>
             <div className="flex place-content-center my-5">

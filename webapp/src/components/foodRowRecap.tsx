@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 interface Props {
-    id: number
+    food: Food,
     quantity: number
 }
 
@@ -11,19 +11,10 @@ import {
     TableCell,
     TableRow,
 } from "@/components/ui/table"
+import { Food } from "@/types/food";
 
 
-export default function FoodCheckout({ id, quantity }: Props) {
-    const [food, setFood] = useState({ name: "", price: 0 });
-
-    useEffect(() => {
-        async function getFood() {
-            const data = await fetch(`/api/foods/${id}`).then(res => res.json())
-            setFood(data);
-        }
-        getFood();
-    }, [])
-
+export default function FoodRowRecap({ food, quantity }: Props) {
     return (
         <TableRow>
             <TableCell className="font-medium">{food.name}</TableCell>
