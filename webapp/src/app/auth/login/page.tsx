@@ -79,7 +79,7 @@ export default function Login() {
                                 name="username"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Cliente</FormLabel>
+                                        <FormLabel>Username</FormLabel>
                                         <FormControl>
                                             <Input placeholder="Nome utente" {...field} />
                                         </FormControl>
@@ -92,7 +92,7 @@ export default function Login() {
                                 name="password"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Tavolo</FormLabel>
+                                        <FormLabel>Password</FormLabel>
                                         <FormControl>
                                             <Input placeholder="Password" type="password" {...field} />
                                         </FormControl>
