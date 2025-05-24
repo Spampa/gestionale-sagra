@@ -21,7 +21,7 @@ PEPPER=xxxxxx
 JWT_SECRET=diegoredondi
 ```
 
-### 2. Next.js (.env.local)
+### 2. Next.js (.env)
 Create a `.env` file in your Next.js frontend folder:
 
 ```env
