@@ -29,6 +29,7 @@ import {
 import { Button } from "@/components/ui/button";
 
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const formSchema = z.object({
     username: z.string({ required_error: "Il campo è obbligatorio" }),
@@ -62,58 +63,69 @@ export default function Login() {
         })
     }
     return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                <div className="h-screen w-full flex flex-col items-center place-content-center">
-                    <Card className="w-[350px]">
-                        <CardHeader>
-                            <div className="relative flex w-full place-content-center pb-6">
-                                <Image src={"/logo.jpg"} alt="logo" priority width={100} height={100} style={{ width: 'auto', height: 'auto' }} />
-                            </div>
-                            <CardTitle className="text-center">Login</CardTitle>
-                        </CardHeader>
-                        <CardContent className="flex flex-col gap-2">
+        <div className="h-screen w-full flex place-content-center items-center bg-secondary-foreground">
+            <h1 className="text-primary absolute top-0 p-3 md:left-0 font-bold text-lg">My Sagra</h1>
+            <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                    <div className="h-screen w-full flex flex-col items-center place-content-center">
+                        <Card className="w-[350px]">
+                            <CardHeader>
+                                <div className="relative flex w-full place-content-center pb-6">
+                                    <Image src={"/logo.jpg"} alt="logo" priority width={100} height={100} style={{ width: 'auto', height: 'auto' }} />
+                                </div>
+                                <CardTitle className="text-center">Login</CardTitle>
+                            </CardHeader>
+                            <CardContent className="flex flex-col gap-2">
 
-                            <FormField
-                                control={form.control}
-                                name="username"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Username</FormLabel>
-                                        <FormControl>
-                                            <Input placeholder="Nome utente" {...field} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="password"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Password</FormLabel>
-                                        <FormControl>
-                                            <Input placeholder="Password" type="password" {...field} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                        </CardContent>
-                        <CardFooter className="flex justify-between">
-                            <Button
-                                variant="outline"
-                                type="button"
-                                onClick={() => form.reset()}
-                            >
-                                Cancella
-                            </Button>
-                            <Button type="submit">Avanti</Button>
-                        </CardFooter>
-                    </Card>
-                </div >
-            </form>
-        </Form >
+                                <FormField
+                                    control={form.control}
+                                    name="username"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Username</FormLabel>
+                                            <FormControl>
+                                                <Input placeholder="Nome utente" {...field} />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="password"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Password</FormLabel>
+                                            <FormControl>
+                                                <Input placeholder="Password" type="password" {...field} />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </CardContent>
+                            <CardFooter className="flex justify-between">
+                                <Button
+                                    variant="outline"
+                                    type="button"
+                                    onClick={() => form.reset()}
+                                >
+                                    Cancella
+                                </Button>
+                                <Button type="submit">Avanti</Button>
+                            </CardFooter>
+                        </Card>
+                    </div >
+                </form>
+            </Form >
+            <div className=" absolute bottom-0 text-sm text-white">
+                <Link href={"https://www.nicolospampa.it/"} target="_blank" rel="noopener noreferrer">
+                    Powered by
+                    <Button variant={"link"} className="p-1.5">
+                        Spampatti Nicolò
+                    </Button>
+                </Link>
+            </div>
+        </div>
     );
 }

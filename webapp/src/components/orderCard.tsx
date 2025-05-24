@@ -45,7 +45,7 @@ export default function OrderCard({ order, value }: OrderCardProps) {
                 </CardDescription>
             </CardHeader>
             <CardContent>
-                <p className="flex flex-row gap-1">
+                <p className="flex flex-row gap-1 items-center">
                     ID Ordine:
                     {
                         order.id.toLowerCase() === value.toLowerCase()
@@ -55,7 +55,7 @@ export default function OrderCard({ order, value }: OrderCardProps) {
                             <span className="font-semibold">{order.id}</span>
                     }
                 </p>
-                <p className="flex flex-row gap-1">
+                <p className="flex flex-row gap-1 items-center">
                     Tavolo:
                     {
                         order.table.includes(value)

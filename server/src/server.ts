@@ -50,5 +50,6 @@ app.use("/roles", roleRoutes);
 app.use("/users", userRoutes);
 
 app.listen(port, () => {
-    console.log(`Server is listening on http://localhost:${port}`);
+  console.log(`Server is listening on http://localhost:${port}`);
+  console.log(`Documentation: http://localhost:${port}/api-docs`);
 });

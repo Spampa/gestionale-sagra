@@ -3,7 +3,6 @@
 import {
     Card,
     CardContent,
-    CardDescription,
     CardFooter,
     CardHeader,
     CardTitle,
@@ -31,7 +30,7 @@ export default function FoodCard({ food }: Prop) {
                 setCount(foodOrder.quantity);
             }
         })
-    }, []);
+    }, [food.id, order]);
 
     function addFood() {
         setOrder(o => {

@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 interface Params {
     id: string;
@@ -7,8 +7,8 @@ interface Params {
 const API_URL = process.env.API_URL;
 
 export async function GET(
-    request: Request,
-    { params }: { params: Params } // params è il secondo argomento
+    request: NextRequest,
+    { params }: { params: Promise<Params> }
 ) {
     const { id } = await params;
     const res = await fetch(`${API_URL}/foods/${id}`);

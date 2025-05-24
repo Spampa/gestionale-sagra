@@ -47,7 +47,7 @@ export default function DialogRecap({ order }: DialogRecapProps) {
                         </div>
                     </DialogDescription>
                 </DialogHeader>
-                <TableRecap order={order} />
+                <TableRecap key={order.id} order={order} />
             </DialogContent>
         </Dialog>
     )

@@ -19,7 +19,7 @@ import { useEffect, useState } from "react";
 import { Category } from "@/types/category";
 
 export default function Recap() {
-    const { order, setOrder } = useOrder();
+    const { order } = useOrder();
     const [categories, setCategories] = useState<Array<Category>>([]);
 
     const router = useRouter();

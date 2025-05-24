@@ -1,6 +1,4 @@
-
 import { NextResponse } from 'next/server';
-import { success } from 'zod/v4';
 
 const API_URL = process.env.API_URL;
 
@@ -25,16 +23,24 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: data.message || 'Login fallito' }, { status: response.status });
         }
 
-        return NextResponse.json(
-            data.user, 
-            {
-                status: 200,
-                headers: {
-                    "Set-Cookie": `token=${data.token}; HttpOnly; Path=/; SameSite=Strict; Secure`
-                }
-            }
-        );
+        const inProd = process.env.NODE_ENV === 'production';
+
+        const nextResponse = NextResponse.json(
+            data.user,
+            { status: 200 }
+        )
+
+        nextResponse.cookies.set({
+            name: "token",
+            value: data.token,
+            httpOnly: true,
+            secure: inProd,
+            path: "/",
+            sameSite: "lax"
+        })
+
+        return nextResponse;
     } catch (e) {
-        return NextResponse.json({ error: 'Errore di rete' }, { status: 500 });
+        return NextResponse.json({ error: e }, { status: 500 });
     }
 }

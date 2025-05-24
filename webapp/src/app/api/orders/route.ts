@@ -1,3 +1,4 @@
+import { FoodsOrderd } from '@/types/foodOrdered';
 import { NextResponse } from 'next/server';
 
 const API_URL = process.env.API_URL;
@@ -5,7 +6,7 @@ const API_URL = process.env.API_URL;
 export async function POST(request: Request) {
     const reqBody = await request.json();
 
-    const foodsOrdered = (reqBody.foodsOrdered || []).map((order: any) => ({
+    const foodsOrdered = (reqBody.foodsOrdered || []).map((order: FoodsOrderd) => ({
         quantity: order.quantity,
         foodId: order.food.id
     }));
@@ -24,8 +25,6 @@ export async function POST(request: Request) {
     })
 
     const data = await res.json();
-
-    console.log(data);
 
     return NextResponse.json(data);
 }

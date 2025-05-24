@@ -5,14 +5,12 @@ import { ShoppingCart, Home } from "lucide-react"
 
 import Link from "next/link"
 
-import { Badge } from "@/components/ui/badge"
-
 import { useOrder } from "@/contexts/OrderContext";
 import { useState, useEffect } from "react"
 
 export default function Header() {
-    const { order, setOrder } = useOrder();
-    const [price, setPrice] = useState<number>(0);
+    const { order } = useOrder();
+    const [, setPrice] = useState<number>(0);
 
     useEffect(() => {
         setPrice(order.price);

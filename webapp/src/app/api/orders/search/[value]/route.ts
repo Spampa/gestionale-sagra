@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 import { cookies } from "next/headers";
 
 interface Params {
@@ -8,9 +8,10 @@ interface Params {
 const API_URL = process.env.API_URL;
 
 export async function GET(
-    request: Request,
-    { params }: { params: Params }
+    request: NextRequest,
+    { params }: { params: Promise<Params> }
 ) {
+
     const cookieStore = cookies();
     const token = (await cookieStore).get("token")?.value || "redondi";
     const { value } = await params;
@@ -27,6 +28,6 @@ export async function GET(
     if (!res.ok) {
         return NextResponse.json({ error: data.message || 'Not Found' }, { status: res.status });
     }
-    
+
     return NextResponse.json(data);
 }

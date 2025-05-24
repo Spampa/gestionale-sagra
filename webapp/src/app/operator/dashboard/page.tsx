@@ -70,7 +70,7 @@ export default function Dashboard() {
             </div>
 
 
-            <div className="flex w-full place-content-center p-2">
+            <div className="flex w-full place-content-center p-2 pb-safe pb-24 md:pb-2">
                 <Button variant="destructive" className="w-[250px]" onClick={() => logOut()}>
                     Esci <LogOut />
                 </Button>

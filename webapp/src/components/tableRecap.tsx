@@ -15,7 +15,7 @@ interface TableRecapProp {
 
 export default function TableRecap({ order }: TableRecapProp) {
     return (
-        <Table >
+        <Table>
             <TableHeader>
                 <TableRow>
                     <TableHead className="w-[200px]">Alimento</TableHead>
@@ -27,7 +27,7 @@ export default function TableRecap({ order }: TableRecapProp) {
             <TableBody>
                 {
                     order.foodsOrdered.map(foodOrder => (
-                        <TableRow id={foodOrder.food.id.toString()}>
+                        <TableRow key={foodOrder.food.id}>
                             <TableCell className="font-medium">{foodOrder.food.name}</TableCell>
                             <TableCell></TableCell>
                             <TableCell className="text-right">{foodOrder.quantity}</TableCell>

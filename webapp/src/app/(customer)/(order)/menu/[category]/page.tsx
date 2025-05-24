@@ -1,6 +1,7 @@
 'use server'
 
 import FoodCard from "@/components/foodCard";
+import { Food } from "@/types/food";
 
 export default async function Category({
     params
@@ -12,7 +13,7 @@ export default async function Category({
 
     return (
         <div className="flex flex-col gap-6 mt-20 p-3">
-            {foods.map((food: any) => (
+            {foods.map((food: Food) => (
                 <FoodCard key={food.id} food={food} />
             ))}
         </div>

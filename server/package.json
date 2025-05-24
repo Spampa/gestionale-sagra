@@ -4,8 +4,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev -r tsconfig-paths/register src/server.ts",
-    "build": "tsc",
-    "start": "node dist/server.js"
+    "build": "tsc && tsc-alias",
+    "start": "node -r tsconfig-paths/register build/server.js"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
@@ -22,6 +22,7 @@
     "@types/node": "^22.15.18",
     "@types/swagger-ui-express": "^4.1.8",
     "prisma": "^6.8.2",
+    "tsc-alias": "^1.8.16",
     "tsconfig-paths": "^4.2.0"
   },
   "dependencies": {

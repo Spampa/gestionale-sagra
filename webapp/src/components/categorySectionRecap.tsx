@@ -1,5 +1,4 @@
 import { Category } from "@/types/category"
-import { Food } from "@/types/food"
 import { TableCell, TableRow } from "./ui/table"
 import FoodRowRecap from "./foodRowRecap"
 import { FoodsOrderd } from "@/types/foodOrdered"
@@ -19,7 +18,7 @@ export default function CategorySectionRecap({ category, foodsOrderd }: Props) {
                 setFoods(prevFoods => [...prevFoods, foodOrder]);
             }
         })
-    }, [])
+    }, [category.id, foodsOrderd])
 
     if (foods.length === 0) {
         return <></>

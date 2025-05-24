@@ -105,7 +105,7 @@ export const createOrder = async (req: Request, res: Response): Promise<void> =>
         const newOrder = await prisma.order.create({
             data: {
                 id: await generateOrderId(),
-                table: order.table,
+                table: order.table.toString(),
                 customer: order.customer
             }
         });
