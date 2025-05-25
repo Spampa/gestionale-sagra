@@ -95,7 +95,7 @@ export default function Recap() {
                     <AlertCircle className="h-4 w-4" />
                     <AlertTitle>Attenzione</AlertTitle>
                     <AlertDescription>
-                        Per eventuali modifiche dell'ordine o agli ingredienti comunicarli alla cassa prima del pagamento, grazie.
+                        Per eventuali modifiche dell&apos;ordine o agli ingredienti comunicarli alla cassa prima del pagamento, grazie.
                     </AlertDescription>
                 </Alert>
             </div>

@@ -2,12 +2,10 @@
 
 import MenuButton from "@/components/menuButton";
 import { Category } from "@/types/category";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Menu() {
     const [categories, setCategories] = useState<Array<Category>>([]);
-    const router = useRouter();
 
     useEffect(() => {
         async function fetchCategories() {
