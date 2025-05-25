@@ -21,7 +21,7 @@ export default function Menu() {
                 {categories.map((category) => (
                     <MenuButton
                         key={category.id}
-                        src={"/"+ category.name + ".jpg"}
+                        src={"/"+ category.name.toLowerCase() + ".jpg"}
                         href={`/menu/${category.id}`}
                         title={category.name}
                     />
