@@ -46,48 +46,51 @@ export default function Dashboard() {
     }
 
     return (
-        <div className="container mx-auto h-screen p-3 flex flex-col gap-5">
-            <form
-                className="flex flex-row gap-2 items-center rounded-md p-3"
-                onSubmit={e => {
-                    e.preventDefault();
-                    searchOrders(text);
-                    inputRef.current?.blur();
-                }}
-            >
-                <Input
-                    ref={inputRef}
-                    type="search"
-                    inputMode="search"
-                    enterKeyHint="search"
-                    className="hide-search-clear"
-                    placeholder="Cerca Ordine"
-                    value={text}
-                    onChange={e => {
-                        setOrders([]);
-                        setText(e.target.value);
+        <>
+            <div className="container mx-auto h-screen p-3 flex flex-col gap-5">
+                <form
+                    className="flex flex-row gap-2 items-center rounded-md p-3"
+                    onSubmit={e => {
+                        e.preventDefault();
+                        searchOrders(text);
+                        inputRef.current?.blur();
                     }}
-                />
-                <Button size={"icon"} type="submit">
-                    <Search />
-                </Button>
-            </form>
+                >
+                    <Input
+                        ref={inputRef}
+                        type="search"
+                        inputMode="search"
+                        enterKeyHint="search"
+                        className="hide-search-clear"
+                        placeholder="Cerca Ordine"
+                        value={text}
+                        onChange={e => {
+                            setOrders([]);
+                            setText(e.target.value);
+                        }}
+                    />
+                    <Button size={"icon"} type="submit">
+                        <Search />
+                    </Button>
+                </form>
 
-            <div className="flex flex-col gap-3 pb-20">
-                {
-                    orders.map(order => (
-                        <OrderCard order={order} key={order.id} value={text} />
-                    ))
-                }
+                <div className="flex flex-col gap-3 pb-20">
+                    {
+                        orders.map(order => (
+                            <OrderCard order={order} key={order.id} value={text} />
+                        ))
+                    }
+                </div>
+
+
+
+
             </div>
-
-
-            <div className="flex w-full place-content-center p-5 fixed bottom-0 bg-white">
+            <div className="flex items-center place-content-center p-5 fixed  w-full  bottom-0 bg-white">
                 <Button variant="destructive" className="w-[250px]" onClick={() => logOut()}>
                     Esci <LogOut />
                 </Button>
             </div>
-
-        </div>
+        </>
     )
 }

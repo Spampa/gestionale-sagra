@@ -18,7 +18,7 @@ export default function FoodRowRecap({ food, quantity }: Props) {
             <TableCell className="font-medium">{food.name}</TableCell>
             <TableCell></TableCell>
             <TableCell className="text-right">{quantity}</TableCell>
-            <TableCell className="text-right">{food.price * quantity}€</TableCell>
+            <TableCell className="text-right">{Number(food.price * quantity).toFixed(2)}€</TableCell>
         </TableRow>
     )
 }

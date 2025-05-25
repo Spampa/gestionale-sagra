@@ -10,10 +10,10 @@ import { useState, useEffect } from "react"
 
 export default function Header() {
     const { order } = useOrder();
-    const [, setPrice] = useState<number>(0);
+    const [price, setPrice] = useState<string>("0.00");
 
     useEffect(() => {
-        setPrice(order.price);
+        setPrice(Number(order.price).toFixed(2));
     }, [order])
 
     return (
@@ -28,7 +28,7 @@ export default function Header() {
                 <Button variant="outline" className="flex flex-row gap-3" asChild>
                     <Link href={"/recap"}>
                         <ShoppingCart />
-                        <p className="min-w-12 text-center">{order.price} €</p>
+                        <p className="min-w-12 text-center">{price} €</p>
                     </Link>
                 </Button>
             </div>

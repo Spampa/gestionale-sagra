@@ -32,6 +32,11 @@ export default function FoodCard({ food }: Prop) {
         })
     }, [food.id, order]);
 
+    function sumFloats(a: number, b: number, decimals: number = 2): number {
+        const factor = Math.pow(10, decimals);
+        return Math.round((a + b) * factor) / factor;
+    }
+
     function addFood() {
         setOrder(o => {
             // Cerca se il cibo è già stato ordinato
@@ -51,7 +56,7 @@ export default function FoodCard({ food }: Prop) {
             }
             return {
                 ...o,
-                price: Number(o.price) + Number(food.price),
+                price: sumFloats(Number(o.price), Number(food.price)),
                 foodsOrdered: newFoodsOrdered
             };
         });
@@ -95,7 +100,10 @@ export default function FoodCard({ food }: Prop) {
             <CardHeader>
                 <CardTitle className="flex flex-row place-content-between">
                     {food.name}
-                    <p className="font-normal">{food.price}€</p>
+                    <p className="font-normal">
+                        {
+                            Number(food.price).toFixed(2)
+                        }€</p>
                 </CardTitle>
             </CardHeader>
             <CardContent>

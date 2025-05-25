@@ -19,7 +19,7 @@ import { useEffect, useState } from "react";
 import { Category } from "@/types/category";
 
 export default function Recap() {
-    const { order } = useOrder();
+    const { order, setOrder } = useOrder();
     const [categories, setCategories] = useState<Array<Category>>([]);
 
     const router = useRouter();
@@ -42,6 +42,12 @@ export default function Recap() {
         }).then(async res => {
             const data = await res.json();
             router.push(`/checkout/${data?.id || ""}`);
+            setOrder({
+                table: order.table,
+                customer: order.customer,
+                price: 0,
+                foodsOrdered: [],
+            })
         }).catch(err => {
             console.log(err);
         })
@@ -72,7 +78,7 @@ export default function Recap() {
                 <TableFooter>
                     <TableRow>
                         <TableCell colSpan={3}>Total</TableCell>
-                        <TableCell className="text-right">{order.price}€</TableCell>
+                        <TableCell className="text-right">{order.price.toFixed(2)}€</TableCell>
                     </TableRow>
                 </TableFooter>
             </Table>
