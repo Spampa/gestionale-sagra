@@ -39,10 +39,10 @@ export default function DialogRecap({ order }: DialogRecapProps) {
                                 })}
                             </nav>
                             <nav>
-                                avolo: {order.table}
+                                Tavolo: {order.table}
                             </nav>
                             <nav>
-                                ID: {order.id}
+                                ID: <span className="font-mono">{order.id}</span>
                             </nav>
                         </div>
                     </DialogDescription>

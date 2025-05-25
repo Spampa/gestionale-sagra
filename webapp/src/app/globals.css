@@ -116,7 +116,31 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .hide-search-clear {
+
+    /* Chrome, Safari, Edge, Opera */
+    &::-webkit-search-clear-button,
+    &::-webkit-search-cancel-button,
+    &::-webkit-search-decoration {
+      display: none;
+    }
+
+    /* Firefox */
+    &::-moz-search-clear,
+    &::-moz-search-cancel {
+      display: none;
+    }
+
+    /* Internet Explorer/Edge */
+    &::-ms-clear {
+      display: none;
+    }
   }
 }

@@ -6,13 +6,14 @@ import { Input } from "@/components/ui/input";
 import { Order } from "@/types/order";
 import { Search, LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export default function Dashboard() {
 
     const router = useRouter();
     const [text, setText] = useState("");
     const [orders, setOrders] = useState<Array<Order>>([]);
+    const inputRef = useRef<HTMLInputElement>(null); //remove focus from keyboard
 
     function searchOrders(value: string) {
         if (!value) return;
@@ -45,23 +46,34 @@ export default function Dashboard() {
     }
 
     return (
-        <div className="container mx-auto h-screen p-3 place-content-between flex flex-col gap-5">
-            <div className="flex flex-row gap-2 items-center rounded-md p-3">
+        <div className="container mx-auto h-screen p-3 flex flex-col gap-5">
+            <form
+                className="flex flex-row gap-2 items-center rounded-md p-3"
+                onSubmit={e => {
+                    e.preventDefault();
+                    searchOrders(text);
+                    inputRef.current?.blur();
+                }}
+            >
                 <Input
-                    type="text"
+                    ref={inputRef}
+                    type="search"
+                    inputMode="search"
+                    enterKeyHint="search"
+                    className="hide-search-clear"
                     placeholder="Cerca Ordine"
                     value={text}
                     onChange={e => {
-                        setOrders([])
-                        setText(e.target.value)
+                        setOrders([]);
+                        setText(e.target.value);
                     }}
                 />
-                <Button size={"icon"} onClick={() => searchOrders(text)}>
+                <Button size={"icon"} type="submit">
                     <Search />
                 </Button>
-            </div>
+            </form>
 
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3 pb-20">
                 {
                     orders.map(order => (
                         <OrderCard order={order} key={order.id} value={text} />
@@ -70,7 +82,7 @@ export default function Dashboard() {
             </div>
 
 
-            <div className="flex w-full place-content-center p-2 pb-safe pb-24 md:pb-2">
+            <div className="flex w-full place-content-center p-5 fixed bottom-0 bg-white">
                 <Button variant="destructive" className="w-[250px]" onClick={() => logOut()}>
                     Esci <LogOut />
                 </Button>

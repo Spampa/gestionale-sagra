@@ -50,9 +50,9 @@ export default function OrderCard({ order, value }: OrderCardProps) {
                     {
                         order.id.toLowerCase() === value.toLowerCase()
                             ?
-                            <span className="bg-yellow-300 p-1 rounded-sm font-semibold">{order.id}</span>
+                            <span className="bg-yellow-300 p-1 rounded-sm font-semibold font-mono">{order.id}</span>
                             :
-                            <span className="font-semibold">{order.id}</span>
+                            <span className="font-semibold font-mono">{order.id}</span>
                     }
                 </p>
                 <p className="flex flex-row gap-1 items-center">
