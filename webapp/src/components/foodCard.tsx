@@ -3,6 +3,7 @@
 import {
     Card,
     CardContent,
+    CardDescription,
     CardFooter,
     CardHeader,
     CardTitle,
@@ -96,28 +97,32 @@ export default function FoodCard({ food }: Prop) {
     }
 
     return (
-        <Card>
+        <Card className=" shadow-xl">
             <CardHeader>
-                <CardTitle className="flex flex-row place-content-between">
+                <CardTitle className="flex flex-row place-content-between items-center text-3xl">
                     {food.name}
-                    <p className="font-normal">
+                </CardTitle>
+                <CardDescription>
+                    <p>{food.description || ""}</p>
+                </CardDescription>
+            </CardHeader>
+            <CardFooter>
+                <div className="flex flex-row place-content-between w-full items-center">
+                    <p className="text-2xl font-semibold text-yellow-700">
                         {
                             Number(food.price).toFixed(2)
-                        }€</p>
-                </CardTitle>
-            </CardHeader>
-            <CardContent>
-                <p>{food.description || ""}</p>
-            </CardContent>
-            <CardFooter>
-                <div className="flex flex-row place-content-between w-full">
-                    <Button variant={"destructive"} size={"icon"} onClick={() => removeFood()}>
-                        <Minus />
-                    </Button>
-                    <p>{count}</p>
-                    <Button size={"icon"} onClick={() => addFood()}>
-                        <Plus />
-                    </Button>
+                        }€
+                    </p>
+                    <div className="flex flex-row gap-1.5 items-center">
+                        <Button variant={"secondary"} size={"icon"} className=" rounded-full" onClick={() => removeFood()}>
+                            <Minus />
+                        </Button>
+                        <p className="p-1 text-lg min-w-8 text-center">{count}</p>
+                        <Button size={"icon"} variant={"secondary"} className="rounded-full" onClick={() => addFood()}>
+                            <Plus />
+                        </Button>
+                    </div>
+
                 </div>
             </CardFooter>
         </Card>

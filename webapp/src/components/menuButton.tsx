@@ -10,18 +10,17 @@ interface MenuButtonProps {
 export default function MenuButton({ title, src, href }: MenuButtonProps) {
     return (
         <Link href={href}>
-            <div className="grid grid-cols-5 h-[80px] md:max-w-[400px]">
-                <div className="relative col-span-2 h-full rounded-s-md overflow-hidden">
+            <div className="grid grid-rows-3 h-[150px] w-full">
+                <div className="relative row-span-2 w-full h-full rounded-t-md rounded-b-none overflow-hidden">
                     <Image
                         src={src}
                         alt={title}
                         fill
-                        sizes="80"
+                        sizes="100"
                         className="object-cover"
-                        style={{ borderTopLeftRadius: '0.375rem', borderBottomLeftRadius: '0.375rem' }}
                     />
                 </div>
-                <div className="col-span-3 text-3xl bg-primary rounded-r-md flex place-content-center items-center text-foreground font-semibold p-3">
+                <div className="row-span-1 text-3xl bg-primary rounded-b-md rounded-t-none flex place-content-center items-center text-foreground font-semibold p-3">
                     {title.toUpperCase()}
                 </div>
             </div>

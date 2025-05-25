@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 import { z } from "zod";
@@ -57,6 +57,7 @@ export default function Home() {
     }));
     router.push("/menu");
   }
+
   return (
     <div className="h-screen w-full flex place-content-center items-center">
       <h1 className="text-primary absolute top-0 p-3 md:left-0 font-bold text-lg">My Sagra</h1>

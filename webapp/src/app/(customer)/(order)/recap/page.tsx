@@ -17,6 +17,8 @@ import CategorySection from "@/components/categorySectionRecap";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { Category } from "@/types/category";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { AlertCircle } from "lucide-react";
 
 export default function Recap() {
     const { order, setOrder } = useOrder();
@@ -41,22 +43,28 @@ export default function Recap() {
             body: JSON.stringify(order)
         }).then(async res => {
             const data = await res.json();
+            localStorage.setItem("orderId", data.id);
+
             router.push(`/checkout/${data?.id || ""}`);
-            setOrder({
-                table: order.table,
-                customer: order.customer,
-                price: 0,
-                foodsOrdered: [],
-            })
+            clearOrder();
         }).catch(err => {
             console.log(err);
         })
     }
 
+    function clearOrder() {
+        setOrder({
+            table: order.table,
+            customer: order.customer,
+            price: 0,
+            foodsOrdered: [],
+        })
+    }
+
     return (
-        <div className="mt-20">
+        <div className="mt-[60px] h-screen flex flex-col gap-4">
             <Table >
-                <TableHeader>
+                <TableHeader className="bg-white">
                     <TableRow>
                         <TableHead className="w-[200px]">Alimento</TableHead>
                         <TableHead></TableHead>
@@ -75,19 +83,31 @@ export default function Recap() {
                         ))
                     }
                 </TableBody>
-                <TableFooter>
+                <TableFooter className="bg-white">
                     <TableRow>
                         <TableCell colSpan={3}>Total</TableCell>
                         <TableCell className="text-right">{order.price.toFixed(2)}€</TableCell>
                     </TableRow>
                 </TableFooter>
             </Table>
-            <div className="flex place-content-center my-5">
+            <div className="p-2">
+                <Alert>
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertTitle>Attenzione</AlertTitle>
+                    <AlertDescription>
+                        Per eventuali modifiche dell'ordine o agli ingredienti comunicarli alla cassa prima del pagamento, grazie.
+                    </AlertDescription>
+                </Alert>
+            </div>
+
+            <div className="flex flex-row gap-2 place-content-center">
+                <Button onClick={() => clearOrder()} variant="destructive">
+                    Svuota Carrello
+                </Button>
                 <Button onClick={() => createOrder()}>
                     Crea Ordine
                 </Button>
             </div>
-
         </div>
     )
 }

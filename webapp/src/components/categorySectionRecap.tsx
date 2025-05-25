@@ -26,7 +26,7 @@ export default function CategorySectionRecap({ category, foodsOrderd }: Props) {
     else {
         return (
             <>
-                <TableRow className=" bg-gray-100">
+                <TableRow className=" bg-white">
                     <TableCell className="font-bold">
                         {category.name.charAt(0).toUpperCase() + category.name.slice(1)}
                     </TableCell>

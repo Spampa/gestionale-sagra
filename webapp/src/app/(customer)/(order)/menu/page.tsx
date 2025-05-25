@@ -2,10 +2,12 @@
 
 import MenuButton from "@/components/menuButton";
 import { Category } from "@/types/category";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Menu() {
     const [categories, setCategories] = useState<Array<Category>>([]);
+    const router = useRouter();
 
     useEffect(() => {
         async function fetchCategories() {
@@ -16,12 +18,12 @@ export default function Menu() {
     }, []);
 
     return (
-        <div className="flex place-content-center items-center">
-            <div className="h-screen flex flex-col gap-3 place-content-center ">
+        <div className="flex place-content-center items-center h-screen ">
+            <div className="flex flex-col gap-8 place-content-center w-full max-w-[600px] px-8 ">
                 {categories.map((category) => (
                     <MenuButton
                         key={category.id}
-                        src={"/"+ category.name.toLowerCase() + ".jpg"}
+                        src={"/" + category.name.toLowerCase() + ".jpg"}
                         href={`/menu/${category.id}`}
                         title={category.name}
                     />
