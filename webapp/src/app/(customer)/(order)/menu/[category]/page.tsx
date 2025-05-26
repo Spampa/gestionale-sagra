@@ -12,10 +12,12 @@ export default async function Category({
     const foods = await fetch(`${process.env.API_URL}/foods/availables/categories/${category}`).then(res => res.json());
 
     return (
-        <div className="flex flex-col gap-6 p-3 mt-[60px] min-h-screen ">
-            {foods.map((food: Food) => (
-                <FoodCard key={food.id} food={food} />
-            ))}
+        <div className="pt-[60px] min-h-screen">
+            <div className="flex flex-col gap-6 p-3 ">
+                {foods.map((food: Food) => (
+                    <FoodCard key={food.id} food={food} />
+                ))}
+            </div>
         </div>
     );
 }
