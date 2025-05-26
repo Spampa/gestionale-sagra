@@ -59,6 +59,9 @@ export const getAvailableFoodByCategory = async (req: Request, res: Response): P
         where: {
             categoryId: id,
             available: true
+        },
+        orderBy: {
+            name: "asc"
         }
     });
 
