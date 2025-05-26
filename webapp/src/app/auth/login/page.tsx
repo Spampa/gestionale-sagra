@@ -30,6 +30,8 @@ import { Button } from "@/components/ui/button";
 
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { toast } from "sonner";
+import { ShieldAlert } from "lucide-react";
 
 const formSchema = z.object({
     username: z.string({ required_error: "Il campo è obbligatorio" }),
@@ -55,8 +57,19 @@ export default function Login() {
             },
             body: JSON.stringify({ username: values.username, password: values.password })
         }).then(async res => {
-            const user = await res.json();
-            localStorage.setItem("user", JSON.stringify(user));
+            const data = await res.json();
+            if(!res.ok){
+                form.reset();
+                toast(
+                    <p className="flex flex-row gap-1.5 items-center">
+                        <ShieldAlert /> 
+                        Username or password not correct
+                    </p>, {
+                        description: data?.error || ""
+                    })
+                return;
+            }
+            localStorage.setItem("user", JSON.stringify(data));
             router.push("/operator/dashboard");
         }).catch(async res => {
             console.log(await res.json());

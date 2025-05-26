@@ -30,7 +30,7 @@ app.use(morgan('combined'));
 
 app.use(cors());
 app.use(express.json());
-app.use(cors({ origin: '*' }));
+app.use(cors({ origin: [`http://localhost:${port}`, `https://${process.env.WEBAPP_DOMAIN}`], credentials: true }));
 
 //log middleware
 app.use(loggerMiddleware);
