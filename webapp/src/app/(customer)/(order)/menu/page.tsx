@@ -19,12 +19,12 @@ export default function Menu() {
     }, []);
 
     return (
-        <div className="flex place-content-center items-center h-screen ">
+        <div className="flex place-content-center items-center min-h-screen py-20 ">
             <div className="flex flex-col gap-8 place-content-center w-full max-w-[600px] px-8 ">
                 {categories.map((category) => (
                     <MenuButton
                         key={category.id}
-                        src={"/" + category.name.toLowerCase() + ".jpg"}
+                        src={"/category_images/" + category.id + ".jpg"}
                         href={`/menu/${category.id}`}
                         title={category.name}
                     />
