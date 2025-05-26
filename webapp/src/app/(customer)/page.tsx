@@ -34,7 +34,10 @@ import Link from "next/link";
 
 const formSchema = z.object({
   customer: z.string({ required_error: "Il campo è obbligatorio" }),
-  table: z.coerce.number({ required_error: "Il campo è obbligatorio" }).min(1, { message: "Numero tavolo minimo 1" }).max(50, { message: "Numero tavolo massimo 50" })
+  table: z.coerce.number({ required_error: "Il campo è obbligatorio" })
+    .int({ message: "Il numero del tavolo deve essere un intero" })
+    .min(1, { message: "Numero tavolo minimo 1" })
+    .max(50, { message: "Numero tavolo massimo 50" })
 });
 
 export default function Home() {

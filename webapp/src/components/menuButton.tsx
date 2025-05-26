@@ -26,7 +26,7 @@ export default function MenuButton({ title, src, href }: MenuButtonProps) {
                     />
                 </div>
                 <div className="min-h-10 text-2xl bg-primary rounded-b-md rounded-t-none flex place-content-center items-center text-foreground font-semibold p-3">
-                    {title.toUpperCase()} del giorno
+                    {title.toUpperCase()}
                 </div>
             </div>
         </Link>
