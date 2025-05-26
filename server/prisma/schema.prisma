@@ -15,30 +15,31 @@ datasource db {
 }
 
 model Category {
-  id Int @id @default(autoincrement())
+  id   Int    @id @default(autoincrement())
   name String @unique
 
   foods Food[]
 }
 
 model Food {
-  id Int @id @default(autoincrement())
-  name String @unique
+  id          Int     @id @default(autoincrement())
+  name        String  @unique
   description String?
-  price Decimal
+  price       Decimal
+  available   Boolean @default(true)
 
-  category Category @relation(fields: [categoryId], references: [id])
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
   categoryId Int
 
   FoodsOrdered FoodsOrdered[]
 }
 
 model Order {
-  id String @id
+  id       String    @id
   dateTime DateTime? @default(now())
-  table String
+  table    String
   customer String
-  price String
+  price    String
 
   foodsOrdered FoodsOrdered[]
 }
@@ -46,10 +47,10 @@ model Order {
 model FoodsOrdered {
   quantity Int
 
-  order Order @relation(fields: [orderId], references: [id])
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
   orderId String
 
-  food Food @relation(fields: [foodId], references: [id])
+  food   Food @relation(fields: [foodId], references: [id], onDelete: Cascade)
   foodId Int
 
   @@id([orderId, foodId])
@@ -57,17 +58,17 @@ model FoodsOrdered {
 
 //users sections
 model Role {
-  id Int @id @default(autoincrement())
+  id   Int    @id @default(autoincrement())
   name String @unique
 
   users User[]
 }
 
 model User {
-  id Int @id @default(autoincrement())
+  id       Int    @id @default(autoincrement())
   username String @unique
   password String
 
-  role Role @relation( fields: [roleId], references: [id])
+  role   Role @relation(fields: [roleId], references: [id])
   roleId Int
 }
