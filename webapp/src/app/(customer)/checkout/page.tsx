@@ -33,7 +33,7 @@ export default function Checkout() {
                 </div>
                 <div className="flex flex-row gap-1">
                     🍸
-                    <p>Le bevande dovrai ritirarle al bar</p>
+                    <p>Dopo aver pagato le bevande dovrai ritirarle al bar</p>
                 </div>
                 <div className="flex flex-row gap-1">
                     🍕
