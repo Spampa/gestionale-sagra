@@ -82,9 +82,6 @@ export default function Dashboard() {
                     }
                 </div>
 
-
-
-
             </div>
             <div className="flex items-center place-content-center p-5 fixed  w-full  bottom-0 bg-white">
                 <Button variant="destructive" className="w-[250px]" onClick={() => logOut()}>

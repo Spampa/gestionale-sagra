@@ -38,6 +38,7 @@ model Order {
   dateTime DateTime? @default(now())
   table String
   customer String
+  price String
 
   foodsOrdered FoodsOrdered[]
 }

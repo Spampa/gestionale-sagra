@@ -20,6 +20,17 @@ import { Category } from "@/types/category";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertCircle } from "lucide-react";
 
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+
+
 export default function Recap() {
     const { order, setOrder } = useOrder();
     const [categories, setCategories] = useState<Array<Category>>([]);
@@ -43,9 +54,9 @@ export default function Recap() {
             body: JSON.stringify(order)
         }).then(async res => {
             const data = await res.json();
-            localStorage.setItem("orderId", data.id);
+            localStorage.setItem("order", JSON.stringify(data));
 
-            router.push(`/checkout/${data?.id || ""}`);
+            router.push(`/checkout`);
             clearOrder();
         }).catch(err => {
             console.log(err);
@@ -104,12 +115,30 @@ export default function Recap() {
                 <Button onClick={() => clearOrder()} variant="destructive">
                     Svuota Carrello
                 </Button>
-                <Button 
-                    disabled = { order.foodsOrdered.length === 0 }
-                    onClick={() => createOrder()}
-                >
-                    Crea Ordine
-                </Button>
+                <Dialog>
+                    <DialogTrigger asChild>
+                        <Button
+                            disabled={order.foodsOrdered.length === 0}
+                        >
+                            Crea Ordine
+                        </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                        <DialogHeader>
+                            <DialogTitle>Sei sicuro di voler ordinare?</DialogTitle>
+                            <DialogDescription>
+                                La tua azione sta per generare un ordine alla cassa,
+                                ti verrà dato un codice dell&apos;ordine<br />
+                                <span className="font-bold"> non dimenticarlo!</span>
+                            </DialogDescription>
+                        </DialogHeader>
+                        <DialogFooter>
+                            <Button onClick={() => createOrder()}>
+                                Conferma Ordine
+                            </Button>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
             </div>
         </div>
     )

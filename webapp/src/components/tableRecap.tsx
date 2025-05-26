@@ -36,7 +36,7 @@ export default function TableRecap({ order }: TableRecapProp) {
                                     : ""}
                             </TableCell>
                             <TableCell className="text-right">{foodOrder.quantity}</TableCell>
-                            <TableCell className="text-right">{foodOrder.food.price * foodOrder.quantity}€</TableCell>
+                            <TableCell className="text-right">{(foodOrder.food.price * foodOrder.quantity).toFixed(2)}€</TableCell>
                         </TableRow>
                     ))
                 }

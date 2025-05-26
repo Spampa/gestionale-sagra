@@ -1,8 +1,11 @@
 'use client'
 
 import MenuButton from "@/components/menuButton";
+import { Button } from "@/components/ui/button";
 import { Category } from "@/types/category";
 import { useEffect, useState } from "react";
+import { ShoppingCart } from "lucide-react";
+import Link from "next/link";
 
 export default function Menu() {
     const [categories, setCategories] = useState<Array<Category>>([]);
@@ -26,6 +29,12 @@ export default function Menu() {
                         title={category.name}
                     />
                 ))}
+                <Link href={"/recap"}>
+                    <Button variant={"outline"} className="w-full">
+                        <ShoppingCart />
+                        Vai al carrello
+                    </Button>
+                </Link>
             </div>
         </div>
 

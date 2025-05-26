@@ -635,6 +635,9 @@ components:
     foodsOrdered:
       type: object
       properties:
+        price:
+          type: string
+          example: "15.00"
         foodId:
           type: integer
         quantity:
@@ -653,8 +656,7 @@ components:
         customer:
           type: string
         price:
-          type: number
-          format: float
+          type: string
         foodsOrdered:
           type: array
           items:

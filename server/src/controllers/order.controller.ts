@@ -94,29 +94,33 @@ export const searchOrder = async (req: Request, res: Response): Promise<void> =>
         return;
     }
 
-    const ordersWithPrice = orders.map(order => {
-        const price = order.foodsOrdered.reduce((sum, item) => {
-            return sum + Number(item.quantity) * Number(item.food.price);
-        }, 0);
-        return {
-            price,
-            ...order,
-        };
-    });
-
-    res.status(200).json(ordersWithPrice);
+    res.status(200).json(orders);
 }
 
 export const createOrder = async (req: Request, res: Response): Promise<void> => {
     const order: Order = req.body;
     const foodsOrdereds: Array<FoodsOrdered> = req.body.foodsOrdered;
 
+    let price = 0;
+    for(const foodOrder of foodsOrdereds){
+        const food = await prisma.food.findUnique({ where: { id: foodOrder.foodId }})
+        if(!food){
+            res.status(400).json({
+                error: "Invalid order object"
+            })
+            return;
+        }
+
+        price += Number(food?.price ?? 0) * Number(foodOrder.quantity);
+    }
+
     try {
         const newOrder = await prisma.order.create({
             data: {
                 id: await generateOrderId(),
                 table: order.table.toString(),
-                customer: order.customer
+                customer: order.customer,
+                price: price.toFixed(2).toString()
             }
         });
 

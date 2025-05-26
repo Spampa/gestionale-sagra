@@ -12,7 +12,7 @@ export default async function Category({
     const foods = await fetch(`${process.env.API_URL}/foods/categories/${category}`).then(res => res.json());
 
     return (
-        <div className="flex flex-col gap-6 p-3 mt-[60px] h-screen">
+        <div className="flex flex-col gap-6 p-3 mt-[60px] min-h-screen ">
             {foods.map((food: Food) => (
                 <FoodCard key={food.id} food={food} />
             ))}
