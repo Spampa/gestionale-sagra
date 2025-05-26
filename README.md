@@ -19,6 +19,7 @@ PORT=3001
 DATABASE_URL="mysql://USERNAME:PASSWORD@HOST:PORT/DATABASENAME"
 PEPPER=xxxxxx
 JWT_SECRET=diegoredondi
+WEBAPP_DOMAIN="mysite.com"
 ```
 
 ### 2. Next.js (.env)
