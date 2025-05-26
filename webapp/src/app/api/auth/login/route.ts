@@ -36,7 +36,7 @@ export async function POST(request: Request) {
             httpOnly: true,
             secure: inProd,
             path: "/",
-            sameSite: "none"
+            sameSite: inProd ? "none" : "lax"
         })
 
         return nextResponse;

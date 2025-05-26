@@ -104,7 +104,10 @@ export default function Recap() {
                 <Button onClick={() => clearOrder()} variant="destructive">
                     Svuota Carrello
                 </Button>
-                <Button onClick={() => createOrder()}>
+                <Button 
+                    disabled = { order.foodsOrdered.length === 0 }
+                    onClick={() => createOrder()}
+                >
                     Crea Ordine
                 </Button>
             </div>

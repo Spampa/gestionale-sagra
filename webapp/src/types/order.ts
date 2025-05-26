@@ -5,5 +5,6 @@ export type Order = {
     dateTime: Date,
     table: string,
     customer: string,
+    price?: number
     foodsOrdered: Array<FoodsOrderd>
 }

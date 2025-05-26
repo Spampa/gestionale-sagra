@@ -56,7 +56,7 @@ export const searchOrder = async (req: Request, res: Response): Promise<void> =>
     today.setHours(0, 0, 0, 0);
     const tomorrow = new Date(today);
     tomorrow.setDate(today.getDate() + 1);
-    
+
     const orders = await prisma.order.findMany({
         where: {
             dateTime: {
@@ -94,7 +94,17 @@ export const searchOrder = async (req: Request, res: Response): Promise<void> =>
         return;
     }
 
-    res.status(200).json(orders);
+    const ordersWithPrice = orders.map(order => {
+        const price = order.foodsOrdered.reduce((sum, item) => {
+            return sum + Number(item.quantity) * Number(item.food.price);
+        }, 0);
+        return {
+            price,
+            ...order,
+        };
+    });
+
+    res.status(200).json(ordersWithPrice);
 }
 
 export const createOrder = async (req: Request, res: Response): Promise<void> => {
