@@ -45,7 +45,7 @@ export default function TableRecap({ order }: TableRecapProp) {
             <TableBody>
                 {
                     categories.map(category => (
-                        <CategorySectionRecap category={category} foodsOrderd={order.foodsOrdered} className=" bg-secondary" smallView/>
+                        <CategorySectionRecap key={category.id} category={category} foodsOrderd={order.foodsOrdered} className=" bg-secondary" smallView/>
                     ))
                 }
             </TableBody>
