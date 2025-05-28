@@ -31,6 +31,7 @@ import { Button } from "@/components/ui/button";
 import { useOrder } from "@/contexts/OrderContext";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Logo from "@/components/logo";
 
 const formSchema = z.object({
   customer: z.string({ required_error: "Il campo è obbligatorio" }),
@@ -70,7 +71,7 @@ export default function Home() {
             <Card className="w-[350px]">
               <CardHeader>
                 <div className="relative flex w-full place-content-center pb-6">
-                  <Image src={"/logo.jpg"} alt="logo" priority width={100} height={100} style={{ width: 'auto', height: 'auto' }} />
+                  <Logo className="h-28"/>
                 </div>
                 <CardTitle>Benvenuto</CardTitle>
               </CardHeader>

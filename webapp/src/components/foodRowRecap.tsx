@@ -2,7 +2,8 @@
 
 interface Props {
     food: Food,
-    quantity: number
+    quantity: number,
+    smallView?: boolean
 }
 
 import {
@@ -12,11 +13,22 @@ import {
 import { Food } from "@/types/food";
 
 
-export default function FoodRowRecap({ food, quantity }: Props) {
+export default function FoodRowRecap({ food, quantity, smallView = false }: Props) {
     return (
         <TableRow>
-            <TableCell className="font-medium">{food.name}</TableCell>
-            <TableCell></TableCell>
+            <TableCell 
+                className={`
+                    font-medium
+                    ${
+                        food.name.length > 25 ? "text-[10px] md:text-sm" : "text-sm"
+                    }
+                `}
+            >
+                { food.name }
+            </TableCell>
+            {
+                smallView ? <></> : <TableCell></TableCell>
+            }
             <TableCell className="text-right">{quantity}</TableCell>
             <TableCell className="text-right">{Number(food.price * quantity).toFixed(2)}€</TableCell>
         </TableRow>

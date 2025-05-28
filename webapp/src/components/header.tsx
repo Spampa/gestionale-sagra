@@ -18,7 +18,7 @@ export default function Header() {
 
     return (
         <header className="fixed top-0 w-full flex p-3 place-content-between items-center z-50 bg-white">
-            <h1 className="font-bold text-lg">Insieme in Festa</h1>
+            <h1 className="font-bold text-lg text-primary">{process.env.NEXT_PUBLIC_APP_NAME}</h1>
             <div className="flex flex-row gap-1">
                 <Button asChild size="icon">
                     <Link href={"/menu"}>

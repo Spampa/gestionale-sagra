@@ -7,9 +7,13 @@ import { useEffect, useState } from "react"
 interface Props {
     category: Category,
     foodsOrderd: Array<FoodsOrderd>
+    className?: string
+    smallView?: boolean
 }
 
-export default function CategorySectionRecap({ category, foodsOrderd }: Props) {
+import { cn } from "@/lib/utils"
+
+export default function CategorySectionRecap({ category, foodsOrderd, className, smallView = false }: Props) {
     const [foods, setFoods] = useState<Array<FoodsOrderd>>([]);
 
     useEffect(() => {
@@ -26,11 +30,13 @@ export default function CategorySectionRecap({ category, foodsOrderd }: Props) {
     else {
         return (
             <>
-                <TableRow className=" bg-white">
-                    <TableCell className="font-bold">
+                <TableRow className={cn("bg-white", className)}>
+                    <TableCell className="font-bold text-lg">
                         {category.name.charAt(0).toUpperCase() + category.name.slice(1)}
                     </TableCell>
-                    <TableCell></TableCell>
+                    {
+                        smallView ? <></> : <TableCell></TableCell>
+                    }
                     <TableCell></TableCell>
                     <TableCell></TableCell>
                 </TableRow>
@@ -45,6 +51,7 @@ export default function CategorySectionRecap({ category, foodsOrderd }: Props) {
                                 key={foodOrder.food.id}
                                 food={foodOrder.food}
                                 quantity={foodOrder.quantity}
+                                smallView
                             />
                         ))
                 }

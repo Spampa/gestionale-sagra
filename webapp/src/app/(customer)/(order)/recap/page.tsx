@@ -73,7 +73,7 @@ export default function Recap() {
     }
 
     return (
-        <div className="pt-[60px] h-screen flex flex-col gap-4">
+        <div className="pt-[60px] h-screen flex flex-col gap-4 pb-4">
             <Table >
                 <TableHeader className="bg-white">
                     <TableRow>

@@ -24,7 +24,7 @@ export default function DialogRecap({ order }: DialogRecapProps) {
                     Visualizza Ordine
                 </Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className=" h-[500px]">
                 <DialogHeader>
                     <DialogTitle>Ordine di {order.customer}</DialogTitle>
                     <DialogDescription asChild>
