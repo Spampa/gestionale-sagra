@@ -34,21 +34,24 @@ import Logo from "@/components/logo";
 
 const formSchema = z.object({
   customer: z.string({ required_error: "Il campo è obbligatorio" }),
-  table: z.coerce.number({ required_error: "Il campo è obbligatorio" })
-    .int({ message: "Il numero del tavolo deve essere un intero" })
-    .min(1, { message: "Numero tavolo minimo 1" })
-    .max(50, { message: "Numero tavolo massimo 50" })
+  table: z.string({ required_error: "Il campo è obbligatorio" })
+    .refine(val => {
+      const num = Number(val);
+      return Number.isInteger(num) && num >= 1 && num <= 50;
+    }, {
+      message: "Il numero del tavolo deve essere un intero tra 1 e 50"
+    })
 });
 
 export default function Home() {
   const { setOrder } = useOrder();
   const router = useRouter();
 
-  const form = useForm<z.input<typeof formSchema>>({
+  const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       customer: "",
-      table: 0
+      table: "", // deve essere stringa, non number o undefined
     }
   });
 
@@ -56,7 +59,7 @@ export default function Home() {
     setOrder(o => ({
       ...o,
       customer: values.customer,
-      table: values.table
+      table: values.table.toString()
     }));
     router.push("/menu");
   }
@@ -70,7 +73,7 @@ export default function Home() {
             <Card className="w-[350px]">
               <CardHeader>
                 <div className="relative flex w-full place-content-center pb-6">
-                  <Logo className="h-28"/>
+                  <Logo className="h-28" />
                 </div>
                 <CardTitle>Benvenuto</CardTitle>
               </CardHeader>
@@ -96,7 +99,7 @@ export default function Home() {
                     <FormItem>
                       <FormLabel>Tavolo</FormLabel>
                       <FormControl>
-                        <Input placeholder="Numero tavolo" type="number" {...field} />
+                        <Input placeholder="Numero tavolo" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

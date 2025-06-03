@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Insieme In Festa",
-  description: "Gestionale di insieme in festa",
+  title: "My Sagra",
+  description: "Il gestionale di sagre",
 };
 
 export default function RootLayout({

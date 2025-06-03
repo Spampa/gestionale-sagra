@@ -51,7 +51,7 @@ export default function CategorySectionRecap({ category, foodsOrderd, className,
                                 key={foodOrder.food.id}
                                 food={foodOrder.food}
                                 quantity={foodOrder.quantity}
-                                smallView
+                                smallView={smallView}
                             />
                         ))
                 }

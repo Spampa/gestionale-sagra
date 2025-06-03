@@ -631,9 +631,8 @@ components:
         available:
           type: boolean
           example: true
-        categoryId:
-          type: integer
-          example: 1
+        category:
+          $ref: "#/components/schemas/CategoryBasic"
     FoodInput:
       type: object
       required:

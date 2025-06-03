@@ -5,7 +5,11 @@ import prisma from "@/utils/prisma";
 import { Food } from "@generated/prisma";
 
 export const getFoods = async (req: Request, res: Response): Promise<void> => {
-    const foods = await prisma.food.findMany();
+    const foods = await prisma.food.findMany({
+        include: {
+            category: true
+        }
+    });
     res.status(200).json(foods);
 }
 
@@ -13,6 +17,9 @@ export const getAvailableFoods = async (req: Request, res: Response): Promise<vo
     const foods = await prisma.food.findMany({
         where: {
             available: true
+        },
+        include: {
+            category: true
         }
     });
     res.status(200).json(foods);
@@ -24,6 +31,9 @@ export const getFoodById = async (req: Request, res: Response): Promise<void> =>
     const food = await prisma.food.findUnique({
         where: {
             id
+        },
+        include: {
+            category: true
         }
     });
 
@@ -41,6 +51,9 @@ export const getFoodByCategory = async (req: Request, res: Response): Promise<vo
     const food = await prisma.food.findMany({
         where: {
             categoryId: id
+        },
+        include: {
+            category: true
         }
     });
 
@@ -62,6 +75,9 @@ export const getAvailableFoodByCategory = async (req: Request, res: Response): P
         },
         orderBy: {
             name: "asc"
+        },
+        include: {
+            category: true
         }
     });
 
@@ -98,7 +114,10 @@ export const updateFood = async (req: Request, res: Response): Promise<void> => 
             where: {
                 id
             },
-            data: food
+            data: food,
+            include: {
+                category: true
+            }
         });
 
         if (!updatedFood) {
@@ -116,7 +135,7 @@ export const updateFood = async (req: Request, res: Response): Promise<void> => 
 export const patchFoodAvailable = async (req: Request, res: Response): Promise<void> => {
     const id = parseInt(req.params.id);
 
-    const food = await prisma.food.findUnique({ where: { id }})
+    const food = await prisma.food.findUnique({ where: { id } })
 
     if (!food) {
         res.status(404).json({ message: "Food not found" });
@@ -130,6 +149,9 @@ export const patchFoodAvailable = async (req: Request, res: Response): Promise<v
             },
             data: {
                 available: !food.available
+            },
+            include: {
+                category: true
             }
         });
 
