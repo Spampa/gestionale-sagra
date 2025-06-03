@@ -27,6 +27,7 @@ Create a `.env` file in your Next.js frontend folder:
 
 ```env
 API_URL=http://localhost:3001
+NEXT_PUBLIC_APP_NAME=my sagra
 ```
 If deploying to production, update `API_URL` accordingly.
 
