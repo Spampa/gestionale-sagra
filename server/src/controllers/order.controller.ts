@@ -7,9 +7,67 @@ import prisma from "@/utils/prisma";
 export const getOrders = async (req: Request, res: Response): Promise<void> => {
     const orders = await prisma.order.findMany({
         include: {
-            foodsOrdered: true
+            foodsOrdered: {
+                omit: {
+                    orderId: true,
+                    foodId: true
+                },
+                include: {
+                    food: {
+                        omit: {
+                            categoryId: true
+                        },
+                        include: {
+                            category: true
+                        }
+                    }
+                }
+            }
         }
     });
+    res.status(200).json(orders);
+}
+
+export const getDailyOrders = async (req: Request, res: Response): Promise<void> => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+
+    const orders = await prisma.order.findMany({
+        where: {
+            dateTime: {
+                gte: today,
+                lt: tomorrow
+            }
+        },
+        include: {
+            foodsOrdered: {
+                omit: {
+                    orderId: true,
+                    foodId: true
+                },
+                include: {
+                    food: {
+                        omit: {
+                            categoryId: true
+                        },
+                        include: {
+                            category: true
+                        }
+                    }
+                }
+            }
+        },
+        orderBy: {
+            dateTime: "desc"
+        }
+    });
+
+    if(orders.length === 0){
+        res.status(404).json({ message: "Daily orders not found"});
+        return;
+    }
     res.status(200).json(orders);
 }
 
@@ -102,11 +160,11 @@ export const createOrder = async (req: Request, res: Response): Promise<void> =>
     const foodsOrdereds: Array<FoodsOrdered> = req.body.foodsOrdered;
 
     let price = 0;
-    for(const foodOrder of foodsOrdereds){
-        const food = await prisma.food.findUnique({ where: { id: foodOrder.foodId }})
-        if(!food){
+    for (const foodOrder of foodsOrdereds) {
+        const food = await prisma.food.findUnique({ where: { id: foodOrder.foodId } })
+        if (!food) {
             res.status(400).json({
-                error: "Invalid order object"
+                error: "Food not exists"
             })
             return;
         }

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getOrders, getOrderById, createOrder, deleteOrder, searchOrder } from "@/controllers/order.controller";
+import { getOrders, getOrderById, createOrder, deleteOrder, searchOrder, getDailyOrders } from "@/controllers/order.controller";
 import { checkOrderObj } from "@/middlewares/checkObjects/checkOrder";
 import { checkRole } from "@/middlewares/authMiddleware";
 
@@ -33,6 +33,12 @@ router.get(
     "/search/:value",
     checkRole(["admin", "operator"]),
     searchOrder
+);
+
+router.get(
+    "/day/today",
+    checkRole(["admin", "operator"]),
+    getDailyOrders
 );
 
 export default router;

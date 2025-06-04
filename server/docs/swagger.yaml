@@ -530,6 +530,23 @@ paths:
                   $ref: "#/components/schemas/FullOrder"
         404:
           description: Ordine non trovato
+  /orders/day/today:
+    get:
+      security:
+        - BearerAuth: []
+      tags: [Orders]
+      summary: Ottiene gli ordini del giorno corrente
+      responses:
+        200:
+          description: Lista di ordini del giorno
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FullOrder"
+        404:
+          description: Nessun ordine trovato per oggi
 components:
   securitySchemes:
     BearerAuth:

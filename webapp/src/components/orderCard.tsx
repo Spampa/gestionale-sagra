@@ -26,7 +26,7 @@ export default function OrderCard({ order, value }: OrderCardProps) {
             <CardHeader>
                 <CardTitle>
                     {
-                        order.customer.toLowerCase().includes(value.toLowerCase())
+                        value && order.customer.toLowerCase().includes(value.toLowerCase())
                             ?
                             <span className="bg-yellow-300 p-1 rounded-sm">{order.customer}</span>
                             :
@@ -58,7 +58,7 @@ export default function OrderCard({ order, value }: OrderCardProps) {
                 <p className="flex flex-row gap-1 items-center">
                     Tavolo:
                     {
-                        order.table.includes(value)
+                        value && order.table.includes(value)
                             ?
                             <span className="bg-yellow-300 p-1 rounded-sm font-semibold">{order.table}</span>
                             :
