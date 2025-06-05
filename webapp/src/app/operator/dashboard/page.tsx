@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Order } from "@/types/order";
 import { Search, LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Receipt, Loader2Icon } from "lucide-react";
 import { toast } from "sonner";
 
@@ -19,11 +19,7 @@ export default function Dashboard() {
     const [orders, setOrders] = useState<Array<Order>>([]);
     const inputRef = useRef<HTMLInputElement>(null); //remove focus from keyboard
 
-    useEffect(() => {
-        lastOrders();
-    }, [])
-
-    function lastOrders() {
+    const lastOrders = useCallback(() => {
         setOrderUpdateLoading(true);
         setText("");
         fetch(`/api/orders/day/today`, {
@@ -50,7 +46,11 @@ export default function Dashboard() {
         }).catch(err => {
             console.log(err)
         })
-    }
+    }, [router]);
+
+    useEffect(() => {
+        lastOrders();
+    }, [lastOrders])
 
     function searchOrders(value: string) {
         if (!value) return;
