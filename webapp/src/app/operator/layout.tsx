@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { User } from "@/types/user";
+import { Toaster } from "sonner";
 
 export default function OperatorLayout({ children }: { children: React.ReactNode }) {
     const router = useRouter();
@@ -24,5 +25,10 @@ export default function OperatorLayout({ children }: { children: React.ReactNode
         }
     }, [router]);
 
-    return <>{children}</>;
+    return (
+        <>
+            {children}
+            <Toaster />
+        </>
+    )
 }

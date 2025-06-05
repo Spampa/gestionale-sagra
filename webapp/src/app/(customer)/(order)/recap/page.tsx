@@ -3,8 +3,9 @@
 import { useOrder } from "@/contexts/OrderContext"
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { Loader2Icon } from "lucide-react";
 
-import TableRecap from "@/components/tableRecap";
+import TableRecap from "@/components/recap/tableRecap";
 
 import {
     Dialog,
@@ -15,13 +16,16 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
+import { useState } from "react";
 
 
 export default function Recap() {
     const { order, setOrder } = useOrder();
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
 
     function createOrder() {
+        setLoading(true);
         fetch("/api/orders", {
             method: "POST",
             headers: {
@@ -32,8 +36,11 @@ export default function Recap() {
             const data = await res.json();
             localStorage.setItem("order", JSON.stringify(data));
 
-            router.push(`/checkout`);
-            clearOrder();
+            setTimeout(() => {
+                clearOrder();
+                setLoading(false)
+                router.push(`/checkout`);
+            }, 500)
         }).catch(err => {
             console.log(err);
         })
@@ -76,9 +83,16 @@ export default function Recap() {
                             </DialogDescription>
                         </DialogHeader>
                         <DialogFooter>
-                            <Button onClick={() => createOrder()}>
-                                Conferma Ordine
-                            </Button>
+                            {
+                                loading ?
+                                    <Button className="text-white" disabled>
+                                        <Loader2Icon className="animate-spin" /> Stiamo creando il tuo ordine
+                                    </Button>
+                                    :
+                                    <Button onClick={() => createOrder()}>
+                                        Conferma Ordine
+                                    </Button>
+                            }
                         </DialogFooter>
                     </DialogContent>
                 </Dialog>

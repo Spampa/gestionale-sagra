@@ -1,6 +1,6 @@
 'use client'
 
-import MenuButton from "@/components/menuButton";
+import MenuButton from "@/components/menu/menuButton";
 import { Button } from "@/components/ui/button";
 import { Category } from "@/types/category";
 import { useEffect, useState } from "react";

@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect } from "react"
-import Header from "@/components/header"
+import Header from "@/components/layout/header"
 import { useOrder } from "@/contexts/OrderContext"
 import { useRouter } from "next/navigation";
 import { LoaderCircle } from "lucide-react";

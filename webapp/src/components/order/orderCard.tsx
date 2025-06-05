@@ -11,8 +11,7 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 
-import DialogRecap from "./dialogRecap"
-
+import DialogRecap from "../recap/dialogRecap"
 
 interface OrderCardProps {
     order: Order

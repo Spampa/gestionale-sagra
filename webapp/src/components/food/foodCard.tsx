@@ -8,7 +8,7 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 
-import { Button } from "./ui/button"
+import { Button } from "../ui/button"
 import { Plus, Minus } from "lucide-react"
 
 interface Prop {

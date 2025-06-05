@@ -8,7 +8,7 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 
-import { Button } from "./ui/button"
+import { Button } from "../ui/button"
 import { Order } from "@/types/order"
 import TableRecap from "./tableRecap"
 

@@ -14,8 +14,12 @@ export async function GET() {
             "authorization": `Bearer ${token}`
         }
     });
-    
+
     const data = await res.json();
-    
+
+    if (!res.ok) {
+        return NextResponse.json({ error: data.message || 'Not Found' }, { status: res.status });
+    }
+
     return NextResponse.json(data);
 }

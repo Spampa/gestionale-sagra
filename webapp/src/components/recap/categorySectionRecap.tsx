@@ -1,5 +1,5 @@
 import { Category } from "@/types/category"
-import { TableCell, TableRow } from "./ui/table"
+import { TableCell, TableRow } from "../ui/table"
 import FoodRowRecap from "./foodRowRecap"
 import { FoodsOrderd } from "@/types/foodOrdered"
 import { useEffect, useState } from "react"

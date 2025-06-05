@@ -1,6 +1,6 @@
 "use client"
 
-import { Button } from "./ui/button"
+import { Button } from "../ui/button"
 import { ShoppingCart, Home } from "lucide-react"
 
 import Link from "next/link"

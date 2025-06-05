@@ -58,15 +58,18 @@ export default function Login() {
             body: JSON.stringify({ username: values.username, password: values.password })
         }).then(async res => {
             const data = await res.json();
-            if(!res.ok){
+            if (!res.ok) {
                 form.reset();
                 toast(
-                    <p className="flex flex-row gap-1.5 items-center">
-                        <ShieldAlert /> 
-                        Username or password not correct
-                    </p>, {
-                        description: data?.error || ""
-                    })
+                    <div className="flex flex-row gap-1.5 items-start">
+                        <ShieldAlert />
+                        <div className="flex flex-col gap-0.5 text-left">
+                            <p className=" text-sm">Username or password not correct</p>
+                            <p className="text-black/60">{data?.error || ""}</p>
+                        </div>
+                        
+                    </div>
+                )
                 return;
             }
             localStorage.setItem("user", JSON.stringify(data));
@@ -84,7 +87,7 @@ export default function Login() {
                         <Card className="w-[350px]">
                             <CardHeader>
                                 <div className="relative flex w-full place-content-center pb-6">
-                                    <Logo className="h-28"/>
+                                    <Logo className="h-28" />
                                 </div>
                                 <CardTitle className="text-center">Login</CardTitle>
                             </CardHeader>

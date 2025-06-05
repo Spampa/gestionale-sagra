@@ -1,6 +1,6 @@
 'use server'
 
-import FoodCard from "@/components/foodCard";
+import FoodCard from "@/components/food/foodCard";
 import { Food } from "@/types/food";
 
 export default async function Category({

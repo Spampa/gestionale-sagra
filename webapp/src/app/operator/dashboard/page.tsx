@@ -1,6 +1,6 @@
 'use client'
 
-import OrderCard from "@/components/orderCard";
+import OrderCard from "@/components/order/orderCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Order } from "@/types/order";
@@ -8,12 +8,14 @@ import { Search, LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Receipt, Loader2Icon } from "lucide-react";
+import { toast } from "sonner";
 
 export default function Dashboard() {
 
     const router = useRouter();
     const [text, setText] = useState("");
-    const [loading, setLoading] = useState(false);
+    const [orderUpdateLoading, setOrderUpdateLoading] = useState(false);
+    const [searchLoading, setSearchLoading] = useState(false);
     const [orders, setOrders] = useState<Array<Order>>([]);
     const inputRef = useRef<HTMLInputElement>(null); //remove focus from keyboard
 
@@ -22,22 +24,29 @@ export default function Dashboard() {
     }, [])
 
     function lastOrders() {
-        setLoading(true);
+        setOrderUpdateLoading(true);
         setText("");
         fetch(`/api/orders/day/today`, {
             method: "GET",
             credentials: "include"
         }).then(async res => {
-            
+            setTimeout(() => setOrderUpdateLoading(false), 500);
             if (!res.ok) {
                 if (res.status !== 404 && res.status !== 500) {
                     router.push("/auth/login");
+                }
+                if (res.status == 404) {
+                    toast(
+                        "Nessun ordine trovato!",
+                        {
+                            description: "Error 404"
+                        }
+                    );
                 }
                 return;
             }
             const data = await res.json();
             setOrders(data);
-            setTimeout(() => setLoading(false), 100);
         }).catch(err => {
             console.log(err)
         })
@@ -45,13 +54,23 @@ export default function Dashboard() {
 
     function searchOrders(value: string) {
         if (!value) return;
+        setSearchLoading(true);
         fetch(`/api/orders/search/${value}`, {
             method: "GET",
             credentials: "include"
         }).then(async res => {
+            setTimeout(() => setSearchLoading(false), 500);
             if (!res.ok) {
                 if (res.status !== 404 && res.status !== 500) {
                     router.push("/auth/login");
+                }
+                if (res.status == 404) {
+                    toast(
+                        <p>Nessun ordine trovato con valore di ricerca <span className="font-bold">{text}</span></p>,
+                        {
+                            description: "Error 404"
+                        }
+                    );
                 }
                 return;
             }
@@ -98,13 +117,22 @@ export default function Dashboard() {
                                 setText(e.target.value);
                             }}
                         />
-                        <Button size={"icon"} type="submit">
-                            <Search />
-                        </Button>
+
+                        {
+                            searchLoading ?
+                                <Button className="text-white" disabled size={"icon"}>
+                                    <Loader2Icon className="animate-spin" />
+                                </Button>
+                                :
+                                <Button size={"icon"} type="submit">
+                                    <Search />
+                                </Button>
+                        }
+
                     </form>
                     {
-                        loading ?
-                            <Button className="bg-blue-500 hover:bg-blue-400 text-white" disabled onClick={() => lastOrders()}>
+                        orderUpdateLoading ?
+                            <Button className="bg-blue-500 hover:bg-blue-400 text-white" disabled>
                                 <Loader2Icon className="animate-spin" /> Cercando gli ultimi aggiornamenti
                             </Button>
                             :
@@ -114,7 +142,6 @@ export default function Dashboard() {
                     }
 
                 </div>
-
 
                 <div className="flex flex-col gap-3 pb-20">
                     {
