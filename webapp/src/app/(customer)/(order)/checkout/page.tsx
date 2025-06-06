@@ -26,7 +26,7 @@ export default function Checkout() {
     }, []);
 
     return (
-        <div className="min-h-screen w-full flex flex-col gap-16 place-content-center items-center p-12">
+        <div className="min-h-screen w-full flex flex-col gap-16 place-content-start items-center p-12">
             <div className="flex flex-col gap-3 items-center">
                 <h1 className="font-bold text-xl text-center">Questo è il codice del tuo ordine, <span className="text-red-500">non dimenticarlo:</span></h1>
                 <span className="font-bold font-mono text-9xl text-yellow-800">{order?.id}</span>
@@ -57,34 +57,37 @@ export default function Checkout() {
                     <p>Il tuo ordine sarà servito direttamente al tavolo</p>
                 </div>
             </div>
-            <Dialog>
-                <DialogTrigger asChild>
-                    <Button>
-                        Crea un nuovo Ordine
-                    </Button>
-                </DialogTrigger>
-                <DialogContent>
-                    <DialogHeader>
-                        <DialogTitle>Sei sicuro di voler creare un nuovo ordine</DialogTitle>
-                        <DialogDescription>
-                            Creando un nuovo ordine non potrai più tornare a questa schermata,
-                            ricordati il
-                            <span className="font-bold"> codice ordine.</span><br />
-                            Ma non preoccuparti troppo è sempre reperibile dalle cassiere😉
-                        </DialogDescription>
-                    </DialogHeader>
-                    <DialogFooter>
-                        <Button 
-                            onClick={() => {
-                                sessionStorage.removeItem("createdOrder");
-                                router.push("/");
-                            }}
-                        >
-                            Conferma creazione
+            <div className="w-full inset-shadow-xs fixed bottom-0 p-3 bg-secondary flex place-content-center">
+                <Dialog>
+                    <DialogTrigger asChild>
+                        <Button>
+                            Crea un nuovo Ordine
                         </Button>
-                    </DialogFooter>
-                </DialogContent>
-            </Dialog>
+                    </DialogTrigger>
+                    <DialogContent>
+                        <DialogHeader>
+                            <DialogTitle>Sei sicuro di voler creare un nuovo ordine</DialogTitle>
+                            <DialogDescription>
+                                Creando un nuovo ordine non potrai più tornare a questa schermata,
+                                ricordati il
+                                <span className="font-bold"> codice ordine.</span><br />
+                                Ma non preoccuparti troppo è sempre reperibile dalle cassiere😉
+                            </DialogDescription>
+                        </DialogHeader>
+                        <DialogFooter>
+                            <Button
+                                onClick={() => {
+                                    sessionStorage.removeItem("createdOrder");
+                                    router.push("/");
+                                }}
+                            >
+                                Conferma creazione
+                            </Button>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
+            </div>
+
         </div>
 
     )
