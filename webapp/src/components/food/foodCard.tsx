@@ -61,7 +61,6 @@ export default function FoodCard({ food }: Prop) {
             };
         });
 
-
         setCount(count + 1);
     }
 

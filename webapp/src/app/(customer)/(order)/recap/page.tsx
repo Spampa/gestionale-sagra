@@ -18,7 +18,6 @@ import {
 } from "@/components/ui/dialog"
 import { useState } from "react";
 
-
 export default function Recap() {
     const { order, setOrder } = useOrder();
     const [loading, setLoading] = useState(false);
@@ -34,13 +33,15 @@ export default function Recap() {
             body: JSON.stringify(order)
         }).then(async res => {
             const data = await res.json();
-            localStorage.setItem("order", JSON.stringify(data));
 
             setTimeout(() => {
-                clearOrder();
+                sessionStorage.setItem("createdOrder", JSON.stringify(data));
                 setLoading(false)
-                router.push(`/checkout`);
+                router.replace(`/checkout`);
+                clearOrder();
             }, 500)
+
+
         }).catch(err => {
             console.log(err);
         })

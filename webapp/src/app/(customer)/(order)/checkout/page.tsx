@@ -1,14 +1,27 @@
 'use client'
 
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+
+import { Button } from "@/components/ui/button";
 import { Order } from "@/types/order";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import React from "react";
 
 export default function Checkout() {
     const [order, setOrder] = useState<Order>();
+    const router = useRouter();
 
     useEffect(() => {
-        const orderStr = localStorage.getItem("order");
+        const orderStr = sessionStorage.getItem("createdOrder");
         if (orderStr) setOrder(JSON.parse(orderStr));
     }, []);
 
@@ -44,6 +57,34 @@ export default function Checkout() {
                     <p>Il tuo ordine sarà servito direttamente al tavolo</p>
                 </div>
             </div>
+            <Dialog>
+                <DialogTrigger asChild>
+                    <Button>
+                        Crea un nuovo Ordine
+                    </Button>
+                </DialogTrigger>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Sei sicuro di voler creare un nuovo ordine</DialogTitle>
+                        <DialogDescription>
+                            Creando un nuovo ordine non potrai più tornare a questa schermata,
+                            ricordati il
+                            <span className="font-bold"> codice ordine.</span><br />
+                            Ma non preoccuparti troppo è sempre reperibile dalle cassiere😉
+                        </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter>
+                        <Button 
+                            onClick={() => {
+                                sessionStorage.removeItem("createdOrder");
+                                router.push("/");
+                            }}
+                        >
+                            Conferma creazione
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </div>
 
     )

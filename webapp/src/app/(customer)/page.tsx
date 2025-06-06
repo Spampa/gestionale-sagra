@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 import { z } from "zod";
@@ -63,6 +63,12 @@ export default function Home() {
     }));
     router.push("/menu");
   }
+
+  //clear session storage
+  useEffect(() => {
+    sessionStorage.removeItem("order");
+    sessionStorage.removeItem("createdOrder");
+  })
 
   return (
     <div className="h-screen w-full flex place-content-center items-center">
