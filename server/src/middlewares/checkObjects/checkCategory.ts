@@ -2,9 +2,9 @@ import { Request, Response, NextFunction } from "express";
 import prisma from "@/utils/prisma";
 
 export const checkCategoryObj = (req: Request, res: Response, next: NextFunction): void => {
-    const { name } = req.body;
-
-    if(!name){
+    const { name, position } = req.body;
+    
+    if(!name || !position || isNaN(position)){
         res.status(400).json({ message: "Invalid request"});
         return;
     }

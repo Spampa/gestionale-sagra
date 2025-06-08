@@ -5,10 +5,44 @@ import prisma from "@/utils/prisma";
 export const getCategories = async (req: Request, res: Response): Promise<void> => {
     const categories = await prisma.category.findMany({
         orderBy: {
-            id: "asc"
+            position: "asc"
         }
     });
     res.status(200).json(categories);
+}
+
+export const getAvailableCategories = async (req: Request, res: Response): Promise<void> => {
+    const categories = await prisma.category.findMany({
+        where: {
+            available: true
+        },
+        orderBy: {
+            position: "asc"
+        }
+    });
+    res.status(200).json(categories);
+}
+
+export const patchAvailableCategory = async (req: Request, res: Response): Promise<void> => {
+    const id = parseInt(req.params.id);
+
+    const oldCategory = await prisma.category.findUnique({ where: { id } });
+
+    if (!oldCategory) {
+        res.status(404).json({ message: "Food not found" });
+        return;
+    }
+
+    const patchCategory = await prisma.category.update({
+        where: {
+            id
+        },
+        data: {
+            ...oldCategory,
+            available: !oldCategory?.available
+        }
+    });
+    res.status(200).json(patchCategory);
 }
 
 export const getCategoryById = async (req: Request, res: Response): Promise<void> => {
@@ -29,12 +63,13 @@ export const getCategoryById = async (req: Request, res: Response): Promise<void
 }
 
 export const createCategory = async (req: Request, res: Response): Promise<void> => {
-    const { name } = req.body;
+    const { name, position } = req.body;
 
     try {
         const newCategory = await prisma.category.create({
             data: {
-                name
+                name,
+                position
             }
         });
 
@@ -47,7 +82,7 @@ export const createCategory = async (req: Request, res: Response): Promise<void>
 
 export const updateCategory = async (req: Request, res: Response): Promise<void> => {
     const id = parseInt(req.params.id);
-    const { name } = req.body;
+    const { name, position } = req.body;
 
     try {
         const updatedCategory = await prisma.category.update({
@@ -55,7 +90,8 @@ export const updateCategory = async (req: Request, res: Response): Promise<void>
                 id
             },
             data: {
-                name
+                name,
+                position
             }
         });
 

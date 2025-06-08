@@ -244,6 +244,36 @@ paths:
                 $ref: "#/components/schemas/CategoryBasic"
         400:
           description: Categoria esistente o dati non validi
+  /categories/available:
+    get:
+      tags: [Categories]
+      summary: Ottiene le categorie disponibili
+      responses:
+        200:
+          description: Lista delle categorie disponibili
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CategoryBasic"
+  /categories/available/{id}:
+    patch:
+      security:
+        - BearerAuth: []
+      tags: [Categories]
+      summary: Aggiorna parzialmente una categoria
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        200:
+          description: Disponibilità della categoria aggiornata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoryBasic"
+        404:
+          description: Categoria non trovata
 
   /categories/{id}:
     get:
@@ -368,6 +398,32 @@ paths:
           description: Cibo già esistente o dati non validi
         404:
           description: Cibo non trovato
+    delete:
+      security:
+        - BearerAuth: []
+      tags: [Foods]
+      summary: Elimina un cibo
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        204:
+          description: Cancellato con successo
+        404:
+          description: Cibo non trovato
+  /foods/available:
+    get:
+      tags: [Foods]
+      summary: Ottiene i cibi disponibili
+      responses:
+        200:
+          description: Lista di cibi disponibili
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Food"
+  /foods/available/{id}:
     patch:
       security:
         - BearerAuth: []
@@ -384,32 +440,7 @@ paths:
                 $ref: "#/components/schemas/Food"
         404:
           description: Cibo non trovato
-    delete:
-      security:
-        - BearerAuth: []
-      tags: [Foods]
-      summary: Elimina un cibo
-      parameters:
-        - $ref: "#/components/parameters/id"
-      responses:
-        204:
-          description: Cancellato con successo
-        404:
-          description: Cibo non trovato
-  /foods/availables:
-    get:
-      tags: [Foods]
-      summary: Ottiene i cibi disponibili
-      responses:
-        200:
-          description: Lista di cibi disponibili
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Food"
-  /foods/availables/categories/{id}:
+  /foods/available/categories/{id}:
     get:
       tags: [Foods]
       summary: Ottiene i cibi disponibili in una categoria
@@ -619,6 +650,10 @@ components:
         name:
           type: string
           example: "pizzeria"
+        position:
+          type: integer
+          example: 1
+          description: "Posizione della categoria nell'elenco"
     CategoryBasic:
       type: object
       properties:
@@ -628,6 +663,10 @@ components:
         name:
           type: string
           example: "pizzeria"
+        position:
+          type: integer
+          example: 1
+          description: "Posizione della categoria nell'elenco"
     Food:
       type: object
       properties:

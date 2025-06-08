@@ -12,7 +12,7 @@ router.get(
 );
 
 router.get(
-    "/availables/",
+    "/available/",
     getAvailableFoods
 );
 
@@ -33,14 +33,14 @@ router.put(
 );
 
 router.patch(
-    "/:id",
+    "/available/:id",
     checkRole(["admin"]),
     validateIdParam,
     patchFoodAvailable
 )
 
 router.get(
-    "/availables/categories/:id",
+    "/available/categories/:id",
     validateIdParam,
     getAvailableFoodByCategory
 );

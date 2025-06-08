@@ -13,7 +13,7 @@ export default function Menu() {
 
     useEffect(() => {
         async function fetchCategories() {
-            const data = await fetch("/api/categories").then(res => res.json());
+            const data = await fetch("/api/categories/available").then(res => res.json());
             setCategories(data);
         }
         fetchCategories();

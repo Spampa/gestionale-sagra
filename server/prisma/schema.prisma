@@ -15,8 +15,10 @@ datasource db {
 }
 
 model Category {
-  id   Int    @id @default(autoincrement())
-  name String @unique
+  id        Int     @id @default(autoincrement())
+  name      String  @unique
+  available Boolean @default(true)
+  position  Int     @default(0)
 
   foods Food[]
 }
