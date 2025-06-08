@@ -11,7 +11,7 @@ export async function GET(
     { params }: { params: Promise<Params> } // params è il secondo argomento
 ) {
     const { category } = await params;
-    const res = await fetch(`${API_URL}/foods/availables/categories/${category}`, { next: { revalidate: 60 }});
+    const res = await fetch(`${API_URL}/foods/available/categories/${category}`, { next: { revalidate: 60 }});
     const data = await res.json();
     return NextResponse.json(data);
 }

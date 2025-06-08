@@ -9,7 +9,7 @@ export default async function Category({
     params: Promise<{ category: string }>
 }) {
     const { category } = await params;
-    const foods = await fetch(`${process.env.API_URL}/foods/availables/categories/${category}`).then(res => res.json());
+    const foods = await fetch(`${process.env.API_URL}/foods/available/categories/${category}`).then(res => res.json());
 
     return (
         <div className="pt-[60px] min-h-screen">
