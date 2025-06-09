@@ -83,7 +83,7 @@ function CategoryCard({ category, setCategories }: CategoryCardProps) {
                         orientation="vertical"
                         className="mx-2 data-[orientation=vertical]:h-4"
                     />
-                    <CategoryDialog category={category} setCategories={setCategories} />
+                    <CategoryDialog category={category} setCategories={setCategories} setShow={setShow} />
                 </div>
             </div>
         </div>

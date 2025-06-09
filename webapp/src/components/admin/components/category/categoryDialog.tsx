@@ -43,17 +43,17 @@ const formSchema = z.object({
 interface CategoryDialog {
     category?: Category
     setCategories: React.Dispatch<React.SetStateAction<Category[]>>
+    setShow?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function CategoryDialog({ category, setCategories }: CategoryDialog) {
-
+export default function CategoryDialog({ category, setCategories, setShow }: CategoryDialog) {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: category?.name || "",
             position: category?.position !== undefined ? String(category.position) : "",
-            available: category?.available || true
-        },
+            available: category?.available
+        }
     })
 
     function createCategory(values: z.infer<typeof formSchema>) {
@@ -79,10 +79,12 @@ export default function CategoryDialog({ category, setCategories }: CategoryDial
         }).then(async res => {
             const data = await res.json();
             if (!res.ok) return
+            if (setShow) setShow(data.available);
             setCategories(prev =>
-                prev.map(c => c.id === data.id ? { ...c, ...data } : c)
+                prev
+                    .map(c => c.id === data.id ? { ...c, ...data } : c)
+                    .sort((a, b) => Number(a.position) - Number(b.position))
             );
-
         })
     }
 
