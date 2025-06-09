@@ -15,10 +15,10 @@ import DialogRecap from "../recap/dialogRecap"
 
 interface OrderCardProps {
     order: Order
-    value: string
+    value?: string
 }
 
-export default function OrderCard({ order, value }: OrderCardProps) {
+export default function OrderCard({ order, value="" }: OrderCardProps) {
 
     return (
         <Card>

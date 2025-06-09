@@ -547,7 +547,31 @@ paths:
         - name: value
           in: path
           required: true
-          description: ID dell'ordine o nome del cliente
+          description: ID dell'ordine o nome del cliente o numero tavolo
+          schema:
+            type: string
+      responses:
+        200:
+          description: Lista di ordini trovati
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FullOrder"
+        404:
+          description: Ordine non trovato
+  /orders/search/daily/{value}:
+    get:
+      security:
+        - BearerAuth: []
+      tags: [Orders]
+      summary: Cerca ordini nella data odierna
+      parameters:
+        - name: value
+          in: path
+          required: true
+          description: ID dell'ordine o nome del cliente o numero tavolo
           schema:
             type: string
       responses:

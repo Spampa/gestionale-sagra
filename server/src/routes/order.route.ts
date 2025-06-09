@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getOrders, getOrderById, createOrder, deleteOrder, searchOrder, getDailyOrders } from "@/controllers/order.controller";
+import { getOrders, getOrderById, createOrder, deleteOrder, searchOrder, searchDailyOrder, getDailyOrders } from "@/controllers/order.controller";
 import { checkOrderObj } from "@/middlewares/checkObjects/checkOrder";
 import { checkRole } from "@/middlewares/authMiddleware";
 
@@ -30,8 +30,14 @@ router.get(
 );
 
 router.get(
-    "/search/:value",
+    "/search/daily/:value",
     checkRole(["admin", "operator"]),
+    searchDailyOrder
+);
+
+router.get(
+    "/search/:value",
+    checkRole(["admin"]),
     searchOrder
 );
 

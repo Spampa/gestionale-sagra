@@ -64,8 +64,8 @@ export const getDailyOrders = async (req: Request, res: Response): Promise<void>
         }
     });
 
-    if(orders.length === 0){
-        res.status(404).json({ message: "Daily orders not found"});
+    if (orders.length === 0) {
+        res.status(404).json({ message: "Daily orders not found" });
         return;
     }
     res.status(200).json(orders);
@@ -108,6 +108,45 @@ export const getOrderById = async (req: Request, res: Response): Promise<void> =
 }
 
 export const searchOrder = async (req: Request, res: Response): Promise<void> => {
+    const value = req.params.value;
+
+    const orders = await prisma.order.findMany({
+        where: {
+            OR: [
+                { id: value },
+                { table: { contains: value } },
+                { customer: { contains: value } }
+            ]
+        },
+        include: {
+            foodsOrdered: {
+                omit: {
+                    orderId: true,
+                    foodId: true
+                },
+                include: {
+                    food: {
+                        omit: {
+                            categoryId: true
+                        },
+                        include: {
+                            category: true
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    if (orders.length === 0) {
+        res.status(404).json({ message: "Order not found" });
+        return;
+    }
+
+    res.status(200).json(orders);
+}
+
+export const searchDailyOrder = async (req: Request, res: Response): Promise<void> => {
     const value = req.params.value;
 
     const today = new Date();

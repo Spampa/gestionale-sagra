@@ -1,3 +1,5 @@
+"use client"
+
 import { AdminHeader } from "@/components/admin/layout/header"
 
 export default function Food() {
