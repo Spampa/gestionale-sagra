@@ -9,7 +9,7 @@ import {
     SidebarProvider,
 } from "@/components/ui/sidebar"
 
-import { AdminSidebar } from "@/components/admin/admin-sidebar";
+import { AdminSidebar } from "@/components/admin/layout/admin-sidebar";
 
 export default function OperatorLayout({ children }: { children: React.ReactNode }) {
     const router = useRouter();

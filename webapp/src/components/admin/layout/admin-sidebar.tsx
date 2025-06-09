@@ -9,10 +9,12 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { NavMain } from "../ui/navMain"
+import { NavMain } from "./nav-main"
 
-import { Gauge, ChartArea, Pizza, Receipt } from "lucide-react"
-import Logo from "../logo"
+import { Gauge, ChartArea, Pizza, Receipt, Martini, Users, ArrowLeftRight, Ticket } from "lucide-react"
+import Logo from "@/components/logo"
+import { NavUser } from "./nav-user"
+import { useEffect, useState } from "react"
 
 const data = {
     navMain: [
@@ -27,19 +29,47 @@ const data = {
             icon: ChartArea,
         },
         {
-            title: "Foods",
+            title: "Manage Users",
             url: "#",
+            icon: Users,
+        },
+        {
+            title: "Event",
+            url: "#",
+            icon: Ticket,
+        },
+        {
+            title: "Categories",
+            url: "/admin/categories",
+            icon: Martini,
+        },
+        {
+            title: "Foods",
+            url: "/admin/food",
             icon: Pizza,
         },
         {
             title: "Orders",
             url: "#",
             icon: Receipt,
+        },
+        {
+            title: "Operator View",
+            url: "/operator/dashboard",
+            icon: ArrowLeftRight,
         }
     ]
 }
 
 export function AdminSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+    const [user, setUser] = useState({ username: "", role: ""});
+
+    useEffect(() => {
+        const userStr = localStorage.getItem("user");
+        if(!userStr) return;
+        setUser(JSON.parse(userStr));
+    }, [])
+
     return (
         <Sidebar collapsible="icon" {...props}>
             <SidebarHeader>
@@ -61,7 +91,7 @@ export function AdminSidebar({ ...props }: React.ComponentProps<typeof Sidebar>)
                 <NavMain items={data.navMain} />
             </SidebarContent>
             <SidebarFooter>
-
+                <NavUser user={user} />
             </SidebarFooter>
         </Sidebar>
     )

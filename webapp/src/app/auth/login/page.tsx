@@ -73,7 +73,12 @@ export default function Login() {
                 return;
             }
             localStorage.setItem("user", JSON.stringify(data));
-            router.push("/operator/dashboard");
+            if(data.role === "admin"){
+                router.push("/admin/categories");
+            }
+            else{
+                router.push("/operator/dashboard");
+            }
         }).catch(async res => {
             console.log(await res.json());
         })

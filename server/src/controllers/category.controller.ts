@@ -63,26 +63,27 @@ export const getCategoryById = async (req: Request, res: Response): Promise<void
 }
 
 export const createCategory = async (req: Request, res: Response): Promise<void> => {
-    const { name, position } = req.body;
-
+    const { name, position, available } = req.body;
     try {
         const newCategory = await prisma.category.create({
             data: {
                 name,
-                position
+                position: parseInt(position),
+                available: available || true
             }
         });
 
         res.status(201).json(newCategory);
     }
     catch (err) {
+        console.log(err);
         res.status(500).json({ message: "Internal Server Error" });
     }
 }
 
 export const updateCategory = async (req: Request, res: Response): Promise<void> => {
     const id = parseInt(req.params.id);
-    const { name, position } = req.body;
+    const { name, position, available } = req.body;
 
     try {
         const updatedCategory = await prisma.category.update({
@@ -91,7 +92,8 @@ export const updateCategory = async (req: Request, res: Response): Promise<void>
             },
             data: {
                 name,
-                position
+                position: parseInt(position),
+                available
             }
         });
 
@@ -103,6 +105,7 @@ export const updateCategory = async (req: Request, res: Response): Promise<void>
         res.status(201).json(updatedCategory);
     }
     catch (err) {
+        console.log(err);
         res.status(500).json({ message: "Internal Server Error" });
     }
 }

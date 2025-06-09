@@ -1,4 +1,6 @@
 export type Category = {
     id: number,
-    name: string
+    name: string,
+    position: number,
+    available: boolean
 }
